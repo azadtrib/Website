@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { getProduct, products } from "@/lib/products";
 import { formatPrice } from "@/lib/format";
 import BottleIcon from "@/components/BottleIcon";
@@ -15,8 +16,18 @@ export default async function ProductPage({ params }) {
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-16 grid sm:grid-cols-2 gap-12">
-      <div className="flex justify-center items-start bg-peach-light rounded-2xl py-16">
-        <BottleIcon color={product.color} className="w-40" />
+      <div className="flex justify-center items-center bg-peach-light rounded-2xl py-16 min-h-[22rem]">
+        {product.image ? (
+          <Image
+            src={product.image}
+            alt={product.name}
+            width={280}
+            height={280}
+            className="w-full max-w-[280px] h-auto object-contain rounded-lg"
+          />
+        ) : (
+          <BottleIcon color={product.color} className="w-40" />
+        )}
       </div>
       <div>
         <h1 className="text-3xl font-bold">{product.name}</h1>

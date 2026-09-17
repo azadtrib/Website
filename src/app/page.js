@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Hero from "@/components/Hero";
 import TrustBadges from "@/components/TrustBadges";
 import ProductCard from "@/components/ProductCard";
@@ -25,13 +26,22 @@ export default function Home() {
       </section>
 
       <section id="story" className="bg-navy py-16 border-y border-ink/5">
-        <div className="mx-auto max-w-3xl px-5 text-center">
-          <h2 className="text-2xl font-bold mb-4">Our story</h2>
-          <p className="text-ink/70">
-            Placeholder — swap in your actual founding story here. Keep it short,
-            personal, and specific: why you started, what problem you were
-            solving for your own beard, what makes your formula different.
-          </p>
+        <div className="mx-auto max-w-4xl px-5 grid sm:grid-cols-[auto_1fr] gap-8 items-center">
+          <Image
+            src="/about/founder.png"
+            alt="Founder of the brand"
+            width={160}
+            height={160}
+            className="w-40 h-40 rounded-full object-cover mx-auto border-2 border-teal/40"
+          />
+          <div className="text-center sm:text-left">
+            <h2 className="text-2xl font-bold mb-4">Our story</h2>
+            <p className="text-ink/70">
+              Placeholder — swap in your actual founding story here. Keep it short,
+              personal, and specific: why you started, what problem you were
+              solving for your own beard, what makes your formula different.
+            </p>
+          </div>
         </div>
       </section>
 

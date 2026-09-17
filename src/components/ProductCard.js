@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import BottleIcon from "./BottleIcon";
 import { useCart } from "@/lib/cart-context";
 import { formatPrice } from "@/lib/format";
@@ -10,8 +11,18 @@ export default function ProductCard({ product }) {
 
   return (
     <div className="bg-navy rounded-2xl border border-ink/10 p-6 flex flex-col items-center text-center hover:border-ink/25 transition-colors">
-      <Link href={`/products/${product.slug}`} className="mb-4">
-        <BottleIcon color={product.color} className="w-24" />
+      <Link href={`/products/${product.slug}`} className="mb-4 w-24 h-24 flex items-center justify-center">
+        {product.image ? (
+          <Image
+            src={product.image}
+            alt={product.name}
+            width={96}
+            height={96}
+            className="w-24 h-24 object-contain rounded-lg"
+          />
+        ) : (
+          <BottleIcon color={product.color} className="w-24" />
+        )}
       </Link>
       <Link href={`/products/${product.slug}`} className="font-semibold hover:underline">
         {product.name}

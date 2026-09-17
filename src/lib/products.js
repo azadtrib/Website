@@ -8,6 +8,7 @@ export const products = [
     scent: "Warm sandalwood, amber, a hint of vanilla",
     priceCents: 1999,
     color: "#c99b6b",
+    image: "/products/sandalwood.png",
     description:
       "Our flagship blend. Lightweight, fast-absorbing oil base that softens coarse hair and calms the itch and flakiness of the first few weeks of growing out.",
     bullets: [
@@ -23,6 +24,7 @@ export const products = [
     scent: "Crisp, herbal rosemary",
     priceCents: 1999,
     color: "#8fa377",
+    image: "/products/rosemary.png",
     description:
       "A sharp, herbal scent with rosemary oil known for supporting healthier-looking growth. Same nourishing base, refreshing daily fragrance.",
     bullets: [
