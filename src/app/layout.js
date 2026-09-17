@@ -17,8 +17,40 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: `${siteConfig.brandName} — ${siteConfig.tagline}`,
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: `${siteConfig.brandName} — ${siteConfig.tagline}`,
+    template: `%s | ${siteConfig.brandName}`,
+  },
   description: siteConfig.description,
+  applicationName: siteConfig.brandName,
+  keywords: [
+    "beard oil",
+    "beard care",
+    "men's grooming",
+    "beard oil UK",
+    siteConfig.brandName,
+  ],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: siteConfig.brandName,
+    title: `${siteConfig.brandName} — ${siteConfig.tagline}`,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    locale: "en_GB",
+    images: [{ url: "/hero.png", width: 620, height: 633, alt: siteConfig.brandName }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteConfig.brandName} — ${siteConfig.tagline}`,
+    description: siteConfig.description,
+    images: ["/hero.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({ children }) {

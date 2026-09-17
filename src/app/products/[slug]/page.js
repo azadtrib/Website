@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { getProduct, products } from "@/lib/products";
 import { formatPrice } from "@/lib/format";
+import { siteConfig } from "@/lib/site-config";
 import BottleIcon from "@/components/BottleIcon";
 import AddToCartForm from "@/components/AddToCartForm";
 
@@ -9,13 +10,61 @@ export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
 }
 
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const product = getProduct(slug);
+  if (!product) return {};
+
+  const title = `${product.name} — ${product.scent}`;
+  const url = `${siteConfig.url}/products/${product.slug}`;
+
+  return {
+    title,
+    description: product.description,
+    alternates: { canonical: `/products/${product.slug}` },
+    openGraph: {
+      type: "website",
+      title,
+      description: product.description,
+      url,
+      images: product.image ? [{ url: product.image, alt: product.name }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: product.description,
+      images: product.image ? [product.image] : undefined,
+    },
+  };
+}
+
 export default async function ProductPage({ params }) {
   const { slug } = await params;
   const product = getProduct(slug);
   if (!product) notFound();
 
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: `${siteConfig.brandName} ${product.name}`,
+    description: product.description,
+    image: product.image ? `${siteConfig.url}${product.image}` : undefined,
+    brand: { "@type": "Brand", name: siteConfig.brandName },
+    offers: {
+      "@type": "Offer",
+      url: `${siteConfig.url}/products/${product.slug}`,
+      priceCurrency: siteConfig.currency.toUpperCase(),
+      price: (product.priceCents / 100).toFixed(2),
+      availability: "https://schema.org/InStock",
+    },
+  };
+
   return (
     <div className="mx-auto max-w-5xl px-5 py-16 grid sm:grid-cols-2 gap-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
       <div className="flex justify-center items-center bg-peach-light rounded-2xl py-16 min-h-[22rem]">
         {product.image ? (
           <Image

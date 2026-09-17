@@ -1,6 +1,8 @@
-// Placeholder brand details — swap these once a name/domain is picked.
-// This is the only place most copy needs to change.
+// Brand details — this is the only place most copy needs to change.
 export const siteConfig = {
+  // Used for canonical URLs, sitemap and social share links. Set
+  // NEXT_PUBLIC_SITE_URL in the hosting environment to the live domain.
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://azadblack.co.uk",
   brandName: "AZAD BLACK",
   tagline: "Azad Black - Your Daily Essential.",
   description:

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCart } from "@/lib/cart-context";
 import { siteConfig } from "@/lib/site-config";
 import { formatPrice } from "@/lib/format";
@@ -9,6 +9,23 @@ export default function CartDrawer() {
   const { items, isOpen, closeCart, updateQuantity, subtotalCents } = useCart();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // Coming back from Stripe via the browser's back button restores this page
+  // from the bfcache with its old JS state, which would otherwise leave the
+  // button stuck on "Redirecting…" forever.
+  useEffect(() => {
+    function resetLoading(event) {
+      if (event.persisted || document.visibilityState === "visible") {
+        setLoading(false);
+      }
+    }
+    window.addEventListener("pageshow", resetLoading);
+    window.addEventListener("visibilitychange", resetLoading);
+    return () => {
+      window.removeEventListener("pageshow", resetLoading);
+      window.removeEventListener("visibilitychange", resetLoading);
+    };
+  }, []);
 
   async function handleCheckout() {
     setLoading(true);

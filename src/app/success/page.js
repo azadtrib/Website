@@ -41,8 +41,11 @@ export default async function SuccessPage({ searchParams }) {
       <ClearCartOnLoad />
       <h1 className="text-3xl font-bold">You&apos;re all set 🎉</h1>
       <p className="text-ink/70 mt-4">
-        Thanks for your order — a confirmation email is on its way. We&apos;ll
-        notify you again once it ships.
+        Thanks for your order — a confirmation email is on its way.
+      </p>
+      <p className="text-ink/70 mt-3">
+        We&apos;ll email you again as soon as your package is{" "}
+        <span className="text-teal font-semibold">out for delivery</span>.
       </p>
       <Link
         href="/"
