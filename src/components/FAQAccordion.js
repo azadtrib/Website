@@ -32,20 +32,44 @@ export default function FAQAccordion() {
           Frequently asked questions
         </h2>
         <div className="space-y-3">
-          {faqs.map((faq, i) => (
-            <div key={i} className="border border-ink/15 rounded-xl overflow-hidden">
-              <button
-                className="w-full flex items-center justify-between px-5 py-4 text-left font-medium"
-                onClick={() => setOpenIndex(openIndex === i ? null : i)}
+          {faqs.map((faq, i) => {
+            const isOpen = openIndex === i;
+            return (
+              <div
+                key={i}
+                className="border border-ink/15 rounded-xl overflow-hidden transition-colors hover:border-ink/30"
               >
-                {faq.q}
-                <span className="text-ink/40">{openIndex === i ? "−" : "+"}</span>
-              </button>
-              {openIndex === i && (
-                <p className="px-5 pb-4 text-ink/70 text-sm">{faq.a}</p>
-              )}
-            </div>
-          ))}
+                <button
+                  className="w-full flex items-center justify-between px-5 py-4 text-left font-medium"
+                  onClick={() => setOpenIndex(isOpen ? null : i)}
+                >
+                  {faq.q}
+                  <span
+                    className={`text-teal text-xl leading-none transition-transform duration-300 ${
+                      isOpen ? "rotate-45" : "rotate-0"
+                    }`}
+                  >
+                    +
+                  </span>
+                </button>
+                <div
+                  className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
+                    isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p
+                      className={`px-5 pb-4 text-ink/70 text-sm transition-opacity duration-300 ${
+                        isOpen ? "opacity-100" : "opacity-0"
+                      }`}
+                    >
+                      {faq.a}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

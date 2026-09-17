@@ -62,14 +62,14 @@ export default function CartDrawer() {
               </div>
               <div className="flex items-center gap-2">
                 <button
-                  className="w-7 h-7 rounded-full border border-ink/20 text-sm"
+                  className="w-7 h-7 rounded-full border border-ink/20 text-sm transition-transform active:scale-90"
                   onClick={() => updateQuantity(item.slug, item.quantity - 1)}
                 >
                   −
                 </button>
                 <span className="w-5 text-center text-sm">{item.quantity}</span>
                 <button
-                  className="w-7 h-7 rounded-full border border-ink/20 text-sm"
+                  className="w-7 h-7 rounded-full border border-ink/20 text-sm transition-transform active:scale-90"
                   onClick={() => updateQuantity(item.slug, item.quantity + 1)}
                 >
                   +
@@ -96,7 +96,7 @@ export default function CartDrawer() {
           <button
             disabled={items.length === 0 || loading}
             onClick={handleCheckout}
-            className="w-full bg-ink text-cream rounded-full py-3 font-semibold disabled:opacity-40 hover:opacity-85 transition-opacity"
+            className="w-full bg-ink text-cream rounded-full py-3 font-semibold disabled:opacity-40 transition-all duration-200 hover:opacity-85 active:scale-95"
           >
             {loading ? "Redirecting…" : "Checkout"}
           </button>

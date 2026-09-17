@@ -35,32 +35,17 @@ export const products = [
     ],
   },
   {
-    slug: "pine",
-    name: "Pine",
-    scent: "Fresh pine and forest woods",
-    priceCents: 1999,
-    color: "#5f7a63",
-    description:
-      "A crisp, woody scent for guys who want something bolder. Great for daily wear without leaning sweet or heavy.",
-    bullets: [
-      "Bold, woody scent",
-      "Lightweight daily formula",
-      "Adds natural shine",
-      "100ml — lasts ~3 months",
-    ],
-  },
-  {
     slug: "starter-bundle",
-    name: "Starter Bundle (All 3 Scents)",
-    scent: "Sandalwood, Rosemary & Pine",
-    priceCents: 4999,
-    compareAtCents: 5997,
+    name: "Starter Duo (Both Scents)",
+    scent: "Sandalwood & Rosemary",
+    priceCents: 3199,
+    compareAtCents: 3998,
     color: "#e2a582",
     isBundle: true,
     description:
-      "Try all three scents and find your signature. The easiest way to start — and the best value per bottle.",
+      "Try both scents and find your signature. The easiest way to start — and the best value per bottle.",
     bullets: [
-      "3 x 100ml bottles",
+      "2 x 100ml bottles",
       "Save 20% vs buying separately",
       "Best gift option",
       "Free shipping included",

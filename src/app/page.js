@@ -17,7 +17,7 @@ export default function Home() {
           <h2 className="text-2xl font-bold text-center mb-10">
             Shop the collection
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-5">
             {products.map((p) => (
               <ProductCard key={p.slug} product={p} />
             ))}
@@ -30,9 +30,9 @@ export default function Home() {
           <Image
             src="/about/founder.png"
             alt="Founder of the brand"
-            width={160}
-            height={160}
-            className="w-40 h-40 rounded-full object-cover mx-auto border-2 border-teal/40"
+            width={256}
+            height={256}
+            className="w-56 h-56 sm:w-64 sm:h-64 rounded-2xl object-cover mx-auto border-2 border-teal/40"
           />
           <div className="text-center sm:text-left">
             <h2 className="text-2xl font-bold mb-4">Our story</h2>
