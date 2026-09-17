@@ -10,7 +10,17 @@ export default function ProductCard({ product }) {
   const { addItem } = useCart();
 
   return (
-    <div className="group bg-navy rounded-2xl border border-ink/10 p-6 flex flex-col items-center text-center transition-all duration-300 hover:border-ink/25 hover:-translate-y-1 hover:shadow-lg">
+    <div className="group relative bg-navy rounded-2xl border border-ink/10 p-6 flex flex-col items-center text-center transition-all duration-300 hover:border-ink/25 hover:-translate-y-1 hover:shadow-lg">
+      {product.isBestValue && (
+        <span className="absolute top-3 right-3 bg-teal text-cream text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full">
+          Best value
+        </span>
+      )}
+      {product.discountPercent && (
+        <div className="w-full bg-teal/15 text-teal text-xs font-bold text-center py-1.5 rounded-full mb-3">
+          Limited discount: {product.discountPercent}% off
+        </div>
+      )}
       <Link
         href={`/products/${product.slug}`}
         className="mb-4 w-24 h-24 flex items-center justify-center overflow-hidden"

@@ -1,54 +1,61 @@
 // Catalog matches the private-label supplier's 100ml dropper bottle
 // (Yiwu Qunsen Craft Co.) — landed cost is roughly £1.04-1.21/unit at
-// 500-2999pcs before customization/shipping. Prices below are retail.
+// 500-2999pcs before customization/shipping. Sold as quantity tiers with
+// an escalating discount off the £19.99 single-bottle price.
 export const products = [
   {
-    slug: "sandalwood",
-    name: "Sandalwood",
-    scent: "Warm sandalwood, amber, a hint of vanilla",
-    priceCents: 1999,
+    slug: "one-bottle",
+    name: "1 Bottle",
+    scent: "100ml beard oil",
+    priceCents: 1399,
+    compareAtCents: 1999,
+    discountPercent: 30,
     color: "#c99b6b",
-    image: "/products/sandalwood.png",
+    image: "/products/qty-1.png",
     description:
-      "Our flagship blend. Lightweight, fast-absorbing oil base that softens coarse hair and calms the itch and flakiness of the first few weeks of growing out.",
+      "Your first bottle. Lightweight, fast-absorbing oil base that softens coarse hair and calms the itch and flakiness of the first few weeks of growing out.",
     bullets: [
+      "100ml — lasts ~3 months",
+      "Non-greasy, fast-absorbing",
       "Softens & tames flyaways",
-      "Non-greasy, fast-absorbing",
-      "Fragrance: warm sandalwood",
-      "100ml — lasts ~3 months",
+      "Free UK shipping over £35",
     ],
   },
   {
-    slug: "rosemary",
-    name: "Rosemary",
-    scent: "Crisp, herbal rosemary",
-    priceCents: 1999,
-    color: "#8fa377",
-    image: "/products/rosemary.png",
-    description:
-      "A sharp, herbal scent with rosemary oil known for supporting healthier-looking growth. Same nourishing base, refreshing daily fragrance.",
-    bullets: [
-      "Refreshing herbal scent",
-      "Rosemary oil, known for scalp & beard health",
-      "Non-greasy, fast-absorbing",
-      "100ml — lasts ~3 months",
-    ],
-  },
-  {
-    slug: "starter-bundle",
-    name: "Starter Duo (Both Scents)",
-    scent: "Sandalwood & Rosemary",
-    priceCents: 3199,
+    slug: "two-bottles",
+    name: "2 Bottles",
+    scent: "2 x 100ml beard oil",
+    priceCents: 2299,
     compareAtCents: 3998,
-    color: "#e2a582",
-    isBundle: true,
+    discountPercent: 42,
+    color: "#8fa377",
+    image: "/products/qty-2.png",
     description:
-      "Try both scents and find your signature. The easiest way to start — and the best value per bottle.",
+      "Stock up and never run out. Two bottles at a lower price per bottle than buying one at a time.",
     bullets: [
       "2 x 100ml bottles",
-      "Save 20% vs buying separately",
-      "Best gift option",
-      "Free shipping included",
+      "Lower price per bottle",
+      "Non-greasy, fast-absorbing",
+      "Free UK shipping",
+    ],
+  },
+  {
+    slug: "three-bottles",
+    name: "3 Bottles",
+    scent: "3 x 100ml beard oil",
+    priceCents: 3199,
+    compareAtCents: 5997,
+    discountPercent: 46,
+    color: "#e2a582",
+    image: "/products/qty-3.png",
+    isBestValue: true,
+    description:
+      "Our best value pack. A 3 month supply for you, or share the extras — the best way to buy.",
+    bullets: [
+      "3 x 100ml bottles",
+      "Best price per bottle",
+      "Great gift option",
+      "Free UK shipping",
     ],
   },
 ];

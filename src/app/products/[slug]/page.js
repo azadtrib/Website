@@ -32,7 +32,19 @@ export default async function ProductPage({ params }) {
       <div>
         <h1 className="text-3xl font-bold">{product.name}</h1>
         <p className="text-ink/60 mt-1">{product.scent}</p>
-        <p className="text-2xl font-bold mt-4">{formatPrice(product.priceCents)}</p>
+        <div className="flex items-center gap-3 mt-4">
+          <p className="text-2xl font-bold">{formatPrice(product.priceCents)}</p>
+          {product.compareAtCents && (
+            <p className="text-ink/40 line-through">
+              {formatPrice(product.compareAtCents)}
+            </p>
+          )}
+        </div>
+        {product.discountPercent && (
+          <p className="inline-block bg-teal/15 text-teal text-xs font-bold px-3 py-1.5 rounded-full mt-2">
+            Limited discount: {product.discountPercent}% off
+          </p>
+        )}
         <p className="text-ink/70 mt-5">{product.description}</p>
         <ul className="mt-5 space-y-2 text-sm text-ink/70">
           {product.bullets.map((b) => (
