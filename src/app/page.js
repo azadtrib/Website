@@ -26,7 +26,7 @@ export default function Home() {
       </section>
 
       <section id="story" className="bg-navy py-16 border-y border-ink/5">
-        <div className="mx-auto max-w-4xl px-5 grid sm:grid-cols-[auto_1fr] gap-8 items-center">
+        <div className="mx-auto max-w-4xl px-5 grid sm:grid-cols-[auto_1fr] gap-10 items-start">
           <Image
             src="/about/founder.png"
             alt="Founder of the brand"
@@ -36,10 +36,31 @@ export default function Home() {
           />
           <div className="text-center sm:text-left">
             <h2 className="text-2xl font-bold mb-4">Our story</h2>
-            <p className="text-ink/70">
-              Placeholder — swap in your actual founding story here. Keep it short,
-              personal, and specific: why you started, what problem you were
-              solving for your own beard, what makes your formula different.
+            <p className="text-lg font-semibold text-ink mb-4">
+              We believe looking good shouldn&apos;t have to be complicated.
+            </p>
+            <div className="space-y-4 text-ink/70">
+              <p>
+                Men want to look sharp. They want a beard that feels good, skin
+                that looks healthy, and to feel confident when they leave the
+                house.
+              </p>
+              <p>But most grooming routines feel like another chore.</p>
+              <p>AZAD BLACK was created to change that.</p>
+              <p>
+                We started with one simple idea: make taking care of yourself
+                effortless.
+              </p>
+              <p>
+                Our beard oil is more than something you put in your beard.
+                It&apos;s a small daily ritual, a few seconds to look after
+                yourself, feel fresh, and put a little more effort into the
+                way you present yourself.
+              </p>
+              <p>No complicated routines. No unnecessary steps.</p>
+            </div>
+            <p className="text-teal font-semibold mt-5">
+              Take care of yourself. Look good. Feel good.
             </p>
           </div>
         </div>
