@@ -24,9 +24,9 @@ export default function Hero() {
           </Link>
         </div>
         <div className="flex justify-center gap-4">
-          <BottleIcon color="#2f6f6e" className="w-24 sm:w-32 -rotate-6" />
-          <BottleIcon color="#12213a" className="w-28 sm:w-36 translate-y-4" />
-          <BottleIcon color="#c97b3f" className="w-24 sm:w-32 rotate-6" />
+          <BottleIcon color="#1a1a1a" className="w-24 sm:w-32 -rotate-6" />
+          <BottleIcon color="#3d3d3d" className="w-28 sm:w-36 translate-y-4" />
+          <BottleIcon color="#6e6e6e" className="w-24 sm:w-32 rotate-6" />
         </div>
       </div>
     </section>

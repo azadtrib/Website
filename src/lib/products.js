@@ -1,63 +1,64 @@
-// Placeholder catalog — edit names, prices (in cents) and copy to match your
-// actual supplier once it's locked in.
+// Catalog matches the private-label supplier's 100ml dropper bottle
+// (Yiwu Qunsen Craft Co.) — landed cost is roughly £1.04-1.21/unit at
+// 500-2999pcs before customization/shipping. Prices below are retail.
 export const products = [
   {
-    slug: "original",
-    name: "Original Beard Oil",
-    scent: "Sandalwood & cedarwood, barely-there",
+    slug: "sandalwood",
+    name: "Sandalwood",
+    scent: "Warm sandalwood, amber, a hint of vanilla",
     priceCents: 1999,
-    color: "#2f6f6e",
+    color: "#1a1a1a",
     description:
-      "Our flagship blend. Lightweight jojoba and argan oil base that absorbs fast, softens coarse hair, and calms the itch and flakiness of the first few weeks of growing out.",
+      "Our flagship blend. Lightweight, fast-absorbing oil base that softens coarse hair and calms the itch and flakiness of the first few weeks of growing out.",
     bullets: [
       "Softens & tames flyaways",
       "Non-greasy, fast-absorbing",
-      "Fragrance: light sandalwood",
-      "60ml — lasts ~2 months",
+      "Fragrance: warm sandalwood",
+      "100ml — lasts ~3 months",
     ],
   },
   {
-    slug: "sandalwood",
-    name: "Sandalwood Reserve",
-    scent: "Warm sandalwood, amber, a hint of vanilla",
+    slug: "rosemary",
+    name: "Rosemary",
+    scent: "Crisp, herbal rosemary",
     priceCents: 1999,
-    color: "#12213a",
+    color: "#3d3d3d",
     description:
-      "A richer, warmer scent profile for guys who want their beard oil to double as a signature scent. Same nourishing base, dialed-up fragrance.",
+      "A sharp, herbal scent with rosemary oil known for supporting healthier-looking growth. Same nourishing base, refreshing daily fragrance.",
     bullets: [
-      "Deep conditioning blend",
-      "Long-lasting warm scent",
-      "Reduces beard dandruff",
-      "60ml — lasts ~2 months",
+      "Refreshing herbal scent",
+      "Rosemary oil, known for scalp & beard health",
+      "Non-greasy, fast-absorbing",
+      "100ml — lasts ~3 months",
     ],
   },
   {
-    slug: "cedar-citrus",
-    name: "Cedar & Citrus",
-    scent: "Bright citrus top notes over grounded cedar",
+    slug: "pine",
+    name: "Pine",
+    scent: "Fresh pine and forest woods",
     priceCents: 1999,
-    color: "#c97b3f",
+    color: "#6e6e6e",
     description:
-      "A sharper, energizing scent for daily wear. Great for guys who find heavier oils too strong for the office.",
+      "A crisp, woody scent for guys who want something bolder. Great for daily wear without leaning sweet or heavy.",
     bullets: [
-      "Bright, energizing scent",
+      "Bold, woody scent",
       "Lightweight daily formula",
       "Adds natural shine",
-      "60ml — lasts ~2 months",
+      "100ml — lasts ~3 months",
     ],
   },
   {
     slug: "starter-bundle",
     name: "Starter Bundle (All 3 Scents)",
-    scent: "Original, Sandalwood Reserve & Cedar & Citrus",
+    scent: "Sandalwood, Rosemary & Pine",
     priceCents: 4999,
     compareAtCents: 5997,
-    color: "#14171c",
+    color: "#000000",
     isBundle: true,
     description:
       "Try all three scents and find your signature. The easiest way to start — and the best value per bottle.",
     bullets: [
-      "3 x 60ml bottles",
+      "3 x 100ml bottles",
       "Save 20% vs buying separately",
       "Best gift option",
       "Free shipping included",

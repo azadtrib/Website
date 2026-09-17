@@ -1,4 +1,4 @@
-export default function BottleIcon({ color = "#2f6f6e", className = "" }) {
+export default function BottleIcon({ color = "#1a1a1a", className = "" }) {
   return (
     <svg
       viewBox="0 0 120 200"
@@ -33,7 +33,7 @@ export default function BottleIcon({ color = "#2f6f6e", className = "" }) {
         width="52"
         height="60"
         rx="6"
-        fill="#fbf7f1"
+        fill="#ffffff"
         opacity="0.94"
       />
     </svg>

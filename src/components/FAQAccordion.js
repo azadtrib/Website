@@ -6,7 +6,7 @@ import { siteConfig } from "@/lib/site-config";
 const faqs = [
   {
     q: "How long does one bottle last?",
-    a: "With a few drops a day, most guys get about 2 months out of a 60ml bottle.",
+    a: "With a few drops a day, most guys get about 3 months out of a 100ml bottle.",
   },
   {
     q: "Will it clog my pores or cause breakouts?",
