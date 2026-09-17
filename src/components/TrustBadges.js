@@ -9,12 +9,12 @@ const badges = [
 
 export default function TrustBadges() {
   return (
-    <section className="bg-navy text-cream py-10">
+    <section className="bg-navy text-ink py-10">
       <div className="mx-auto max-w-6xl px-5 grid grid-cols-2 sm:grid-cols-4 gap-8">
         {badges.map((b) => (
           <div key={b.title} className="text-center sm:text-left">
             <p className="font-semibold">{b.title}</p>
-            <p className="text-cream/60 text-sm mt-1">{b.desc}</p>
+            <p className="text-ink/60 text-sm mt-1">{b.desc}</p>
           </div>
         ))}
       </div>

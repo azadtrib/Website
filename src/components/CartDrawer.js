@@ -39,11 +39,11 @@ export default function CartDrawer() {
         onClick={closeCart}
       />
       <aside
-        className={`fixed top-0 right-0 h-full w-full max-w-sm bg-white z-50 shadow-xl flex flex-col transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-full w-full max-w-sm bg-navy border-l border-ink/10 z-50 shadow-xl flex flex-col transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between p-5 border-b border-black/10">
+        <div className="flex items-center justify-between p-5 border-b border-ink/10">
           <h2 className="font-bold text-lg">Your cart</h2>
           <button onClick={closeCart} className="text-ink/60 hover:text-ink text-sm">
             Close
@@ -62,14 +62,14 @@ export default function CartDrawer() {
               </div>
               <div className="flex items-center gap-2">
                 <button
-                  className="w-7 h-7 rounded-full border border-black/15 text-sm"
+                  className="w-7 h-7 rounded-full border border-ink/20 text-sm"
                   onClick={() => updateQuantity(item.slug, item.quantity - 1)}
                 >
                   −
                 </button>
                 <span className="w-5 text-center text-sm">{item.quantity}</span>
                 <button
-                  className="w-7 h-7 rounded-full border border-black/15 text-sm"
+                  className="w-7 h-7 rounded-full border border-ink/20 text-sm"
                   onClick={() => updateQuantity(item.slug, item.quantity + 1)}
                 >
                   +
@@ -79,7 +79,7 @@ export default function CartDrawer() {
           ))}
         </div>
 
-        <div className="p-5 border-t border-black/10 space-y-3">
+        <div className="p-5 border-t border-ink/10 space-y-3">
           <div className="flex justify-between text-sm text-ink/70">
             <span>Shipping</span>
             <span>
@@ -96,7 +96,7 @@ export default function CartDrawer() {
           <button
             disabled={items.length === 0 || loading}
             onClick={handleCheckout}
-            className="w-full bg-ink text-cream rounded-full py-3 font-semibold disabled:opacity-40 hover:bg-navy transition-colors"
+            className="w-full bg-ink text-cream rounded-full py-3 font-semibold disabled:opacity-40 hover:opacity-85 transition-opacity"
           >
             {loading ? "Redirecting…" : "Checkout"}
           </button>

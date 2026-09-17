@@ -24,7 +24,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="story" className="bg-white py-16 border-y border-black/5">
+      <section id="story" className="bg-navy py-16 border-y border-ink/5">
         <div className="mx-auto max-w-3xl px-5 text-center">
           <h2 className="text-2xl font-bold mb-4">Our story</h2>
           <p className="text-ink/70">

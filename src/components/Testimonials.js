@@ -26,8 +26,9 @@ export default function Testimonials() {
         </h2>
         <div className="grid sm:grid-cols-3 gap-6">
           {placeholderReviews.map((r, i) => (
-            <div key={i} className="bg-white rounded-2xl p-6 border border-black/5">
-              <p className="text-ink/80 italic">&ldquo;{r.quote}&rdquo;</p>
+            <div key={i} className="bg-navy rounded-2xl p-6 border border-ink/10">
+              <span className="text-teal text-4xl font-serif leading-none">&ldquo;</span>
+              <p className="text-ink/80 italic mt-2">{r.quote}</p>
               <p className="text-ink/50 text-sm mt-4">— {r.author}</p>
             </div>
           ))}

@@ -9,7 +9,7 @@ export default function AddToCartForm({ product }) {
 
   return (
     <div className="mt-7 flex items-center gap-3">
-      <div className="flex items-center border border-black/15 rounded-full">
+      <div className="flex items-center border border-ink/20 rounded-full">
         <button
           className="w-9 h-9"
           onClick={() => setQty((q) => Math.max(1, q - 1))}
@@ -23,7 +23,7 @@ export default function AddToCartForm({ product }) {
       </div>
       <button
         onClick={() => addItem(product, qty)}
-        className="flex-1 bg-ink text-cream rounded-full py-3 font-semibold hover:bg-navy transition-colors"
+        className="flex-1 bg-ink text-cream rounded-full py-3 font-semibold hover:opacity-85 transition-opacity"
       >
         Add to cart
       </button>

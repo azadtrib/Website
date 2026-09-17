@@ -8,7 +8,7 @@ export default function Nav() {
   const { itemCount, openCart } = useCart();
 
   return (
-    <header className="sticky top-0 z-40 bg-cream/95 backdrop-blur border-b border-black/10">
+    <header className="sticky top-0 z-40 bg-cream/95 backdrop-blur border-b border-ink/10">
       <nav className="mx-auto max-w-6xl px-5 h-16 flex items-center justify-between">
         <Link href="/" className="font-bold tracking-tight text-lg text-ink">
           {siteConfig.brandName}
@@ -26,7 +26,7 @@ export default function Nav() {
         </div>
         <button
           onClick={openCart}
-          className="relative rounded-full bg-ink text-cream px-4 py-2 text-sm font-semibold hover:bg-navy transition-colors"
+          className="relative rounded-full bg-ink text-cream px-4 py-2 text-sm font-semibold hover:opacity-85 transition-opacity"
         >
           Cart
           {itemCount > 0 && (

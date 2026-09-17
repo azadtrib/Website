@@ -9,7 +9,7 @@ export default function ProductCard({ product }) {
   const { addItem } = useCart();
 
   return (
-    <div className="bg-white rounded-2xl border border-black/5 p-6 flex flex-col items-center text-center hover:shadow-lg transition-shadow">
+    <div className="bg-navy rounded-2xl border border-ink/10 p-6 flex flex-col items-center text-center hover:border-ink/25 transition-colors">
       <Link href={`/products/${product.slug}`} className="mb-4">
         <BottleIcon color={product.color} className="w-24" />
       </Link>
@@ -27,7 +27,7 @@ export default function ProductCard({ product }) {
       </div>
       <button
         onClick={() => addItem(product)}
-        className="mt-4 w-full bg-ink text-cream rounded-full py-2.5 text-sm font-semibold hover:bg-navy transition-colors"
+        className="mt-4 w-full bg-ink text-cream rounded-full py-2.5 text-sm font-semibold hover:opacity-85 transition-opacity"
       >
         Add to cart
       </button>

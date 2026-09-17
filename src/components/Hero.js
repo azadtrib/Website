@@ -18,15 +18,15 @@ export default function Hero() {
           </p>
           <Link
             href="#shop"
-            className="inline-block mt-8 bg-ink text-cream rounded-full px-7 py-3.5 font-semibold hover:bg-navy transition-colors"
+            className="inline-block mt-8 bg-ink text-cream rounded-full px-7 py-3.5 font-semibold hover:opacity-85 transition-opacity"
           >
             Shop the collection
           </Link>
         </div>
         <div className="flex justify-center gap-4">
-          <BottleIcon color="#1a1a1a" className="w-24 sm:w-32 -rotate-6" />
-          <BottleIcon color="#3d3d3d" className="w-28 sm:w-36 translate-y-4" />
-          <BottleIcon color="#6e6e6e" className="w-24 sm:w-32 rotate-6" />
+          <BottleIcon color="#c99b6b" className="w-24 sm:w-32 -rotate-6" />
+          <BottleIcon color="#8fa377" className="w-28 sm:w-36 translate-y-4" />
+          <BottleIcon color="#5f7a63" className="w-24 sm:w-32 rotate-6" />
         </div>
       </div>
     </section>

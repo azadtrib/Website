@@ -33,7 +33,7 @@ export default function FAQAccordion() {
         </h2>
         <div className="space-y-3">
           {faqs.map((faq, i) => (
-            <div key={i} className="border border-black/10 rounded-xl overflow-hidden">
+            <div key={i} className="border border-ink/15 rounded-xl overflow-hidden">
               <button
                 className="w-full flex items-center justify-between px-5 py-4 text-left font-medium"
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}

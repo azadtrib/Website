@@ -7,7 +7,7 @@ export const products = [
     name: "Sandalwood",
     scent: "Warm sandalwood, amber, a hint of vanilla",
     priceCents: 1999,
-    color: "#1a1a1a",
+    color: "#c99b6b",
     description:
       "Our flagship blend. Lightweight, fast-absorbing oil base that softens coarse hair and calms the itch and flakiness of the first few weeks of growing out.",
     bullets: [
@@ -22,7 +22,7 @@ export const products = [
     name: "Rosemary",
     scent: "Crisp, herbal rosemary",
     priceCents: 1999,
-    color: "#3d3d3d",
+    color: "#8fa377",
     description:
       "A sharp, herbal scent with rosemary oil known for supporting healthier-looking growth. Same nourishing base, refreshing daily fragrance.",
     bullets: [
@@ -37,7 +37,7 @@ export const products = [
     name: "Pine",
     scent: "Fresh pine and forest woods",
     priceCents: 1999,
-    color: "#6e6e6e",
+    color: "#5f7a63",
     description:
       "A crisp, woody scent for guys who want something bolder. Great for daily wear without leaning sweet or heavy.",
     bullets: [
@@ -53,7 +53,7 @@ export const products = [
     scent: "Sandalwood, Rosemary & Pine",
     priceCents: 4999,
     compareAtCents: 5997,
-    color: "#000000",
+    color: "#e2a582",
     isBundle: true,
     description:
       "Try all three scents and find your signature. The easiest way to start — and the best value per bottle.",
