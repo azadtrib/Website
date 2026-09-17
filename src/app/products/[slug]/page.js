@@ -40,11 +40,6 @@ export default async function ProductPage({ params }) {
             </p>
           )}
         </div>
-        {product.discountPercent && (
-          <p className="inline-block bg-teal/15 text-teal text-xs font-bold px-3 py-1.5 rounded-full mt-2">
-            Limited discount: {product.discountPercent}% off
-          </p>
-        )}
         <p className="text-ink/70 mt-5">{product.description}</p>
         <ul className="mt-5 space-y-2 text-sm text-ink/70">
           {product.bullets.map((b) => (

@@ -2,7 +2,6 @@ import Image from "next/image";
 import Hero from "@/components/Hero";
 import TrustBadges from "@/components/TrustBadges";
 import ProductCard from "@/components/ProductCard";
-import Testimonials from "@/components/Testimonials";
 import FAQAccordion from "@/components/FAQAccordion";
 import { products } from "@/lib/products";
 
@@ -66,7 +65,6 @@ export default function Home() {
         </div>
       </section>
 
-      <Testimonials />
       <FAQAccordion />
     </>
   );
