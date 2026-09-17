@@ -1,0 +1,32 @@
+"use client";
+
+import { useState } from "react";
+import { useCart } from "@/lib/cart-context";
+
+export default function AddToCartForm({ product }) {
+  const { addItem } = useCart();
+  const [qty, setQty] = useState(1);
+
+  return (
+    <div className="mt-7 flex items-center gap-3">
+      <div className="flex items-center border border-black/15 rounded-full">
+        <button
+          className="w-9 h-9"
+          onClick={() => setQty((q) => Math.max(1, q - 1))}
+        >
+          −
+        </button>
+        <span className="w-8 text-center">{qty}</span>
+        <button className="w-9 h-9" onClick={() => setQty((q) => q + 1)}>
+          +
+        </button>
+      </div>
+      <button
+        onClick={() => addItem(product, qty)}
+        className="flex-1 bg-ink text-cream rounded-full py-3 font-semibold hover:bg-navy transition-colors"
+      >
+        Add to cart
+      </button>
+    </div>
+  );
+}
