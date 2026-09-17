@@ -1,5 +1,5 @@
 import Link from "next/link";
-import BottleIcon from "./BottleIcon";
+import Image from "next/image";
 import { siteConfig } from "@/lib/site-config";
 
 export default function Hero() {
@@ -23,10 +23,15 @@ export default function Hero() {
             Shop the collection
           </Link>
         </div>
-        <div className="flex justify-center gap-4">
-          <BottleIcon color="#c99b6b" className="w-24 sm:w-32 -rotate-6" />
-          <BottleIcon color="#8fa377" className="w-28 sm:w-36 translate-y-4" />
-          <BottleIcon color="#5f7a63" className="w-24 sm:w-32 rotate-6" />
+        <div className="flex justify-center">
+          <Image
+            src="/hero.png"
+            alt={siteConfig.brandName}
+            width={620}
+            height={633}
+            priority
+            className="w-full max-w-sm rounded-2xl object-cover border border-ink/10"
+          />
         </div>
       </div>
     </section>
