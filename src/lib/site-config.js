@@ -2,9 +2,9 @@
 // This is the only place most copy needs to change.
 export const siteConfig = {
   brandName: "AZAD BLACK",
-  tagline: "Beard oil, done properly.",
+  tagline: "Azad Black - Your Daily Essential.",
   description:
-    "Small-batch beard oil for guys who take their beard seriously. Softer, fuller, no more itch.",
+    "Take better care of yourself. It starts with the little things.",
   guaranteeDays: 30,
   supportEmail: "hello@azadblack.co.uk",
   instagram: "https://instagram.com",

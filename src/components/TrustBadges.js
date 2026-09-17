@@ -1,10 +1,10 @@
 import { siteConfig } from "@/lib/site-config";
 
 const badges = [
-  { title: "30-Day Guarantee", desc: "Not into it? Full refund, no questions." },
-  { title: "Cruelty-Free", desc: "Never tested on animals." },
+  { title: "30-Day Guarantee", desc: "Try Azad Black without the risk. If it's not for you, we'll make it right." },
+  { title: "EASY TO USE", desc: "A few drops. A better-feeling beard" },
   { title: "Fast Shipping", desc: "Orders ship within 1-2 business days." },
-  { title: "Small Batch", desc: "Made in limited runs for freshness." },
+  { title: "FEEL GOOD", desc: "Lightweight, smooth and made for everyday beard care." },
 ];
 
 export default function TrustBadges() {

@@ -28,7 +28,7 @@ export default function Nav() {
           onClick={openCart}
           className="relative rounded-full bg-ink text-cream px-4 py-2 text-sm font-semibold transition-all duration-200 hover:opacity-85 active:scale-95"
         >
-          Cart
+          Basket
           {itemCount > 0 && (
             <span
               key={itemCount}

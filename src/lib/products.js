@@ -1,15 +1,14 @@
 // Catalog matches the private-label supplier's 100ml dropper bottle
 // (Yiwu Qunsen Craft Co.) — landed cost is roughly £1.04-1.21/unit at
-// 500-2999pcs before customization/shipping. Sold as quantity tiers with
-// an escalating discount off the £19.99 single-bottle price.
+// 500-2999pcs before customization/shipping. Sold as quantity tiers;
+// the 2 and 3 bottle tiers show a volume discount off the £19.99
+// single-bottle price, the 1 bottle tier is full price.
 export const products = [
   {
     slug: "one-bottle",
     name: "1 Bottle",
     scent: "100ml beard oil",
     priceCents: 1399,
-    compareAtCents: 1999,
-    discountPercent: 30,
     color: "#c99b6b",
     image: "/products/qty-1.png",
     description:
