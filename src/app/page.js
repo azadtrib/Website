@@ -9,20 +9,6 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <TrustBadges />
-
-      <section id="shop" className="py-16">
-        <div className="mx-auto max-w-6xl px-5">
-          <h2 className="text-2xl font-bold text-center mb-10">
-            Shop the collection
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-5">
-            {products.map((p) => (
-              <ProductCard key={p.slug} product={p} />
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section id="story" className="bg-navy py-16 border-y border-ink/5">
         <div className="mx-auto max-w-4xl px-5 grid sm:grid-cols-[auto_1fr] gap-10 items-start">
@@ -61,6 +47,21 @@ export default function Home() {
             <p className="text-teal font-semibold mt-5">
               Take care of yourself. Look good. Feel good.
             </p>
+          </div>
+        </div>
+      </section>
+
+      <TrustBadges />
+
+      <section id="shop" className="py-16">
+        <div className="mx-auto max-w-6xl px-5">
+          <h2 className="text-2xl font-bold text-center mb-10">
+            Shop the collection
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-5">
+            {products.map((p) => (
+              <ProductCard key={p.slug} product={p} />
+            ))}
           </div>
         </div>
       </section>
