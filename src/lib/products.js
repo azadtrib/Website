@@ -7,6 +7,7 @@ export const products = [
   {
     slug: "one-bottle",
     name: "1 Bottle",
+    bottles: 1,
     scent: "100ml beard oil",
     priceCents: 1399,
     color: "#c99b6b",
@@ -23,6 +24,7 @@ export const products = [
   {
     slug: "two-bottles",
     name: "2 Bottles",
+    bottles: 2,
     scent: "2 x 100ml beard oil",
     priceCents: 2299,
     compareAtCents: 2799,
@@ -41,6 +43,7 @@ export const products = [
   {
     slug: "three-bottles",
     name: "3 Bottles",
+    bottles: 3,
     scent: "3 x 100ml beard oil",
     priceCents: 3199,
     compareAtCents: 4299,

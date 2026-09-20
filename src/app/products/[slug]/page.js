@@ -88,7 +88,17 @@ export default async function ProductPage({ params }) {
               {formatPrice(product.compareAtCents)}
             </p>
           )}
+          {product.discountPercent && (
+            <span className="bg-teal/15 text-teal text-xs font-bold px-2.5 py-1 rounded-full">
+              Save {product.discountPercent}%
+            </span>
+          )}
         </div>
+        {product.bottles > 0 && (
+          <p className="text-ink/50 text-sm mt-1">
+            {formatPrice(Math.round(product.priceCents / product.bottles))} per bottle
+          </p>
+        )}
         <p className="text-ink/70 mt-5">{product.description}</p>
         <ul className="mt-5 space-y-2 text-sm text-ink/70">
           {product.bullets.map((b) => (
