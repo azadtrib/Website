@@ -73,10 +73,39 @@ payments won't work until Step 4.
 
 ### 4a. Get your keys
 
-1. Log in to [Stripe](https://dashboard.stripe.com).
-2. Make sure the **Test mode** toggle (top right) is **OFF** for real payments.
-3. Go to **Developers** → **API keys**.
-4. Copy the **Publishable key** (starts `pk_live_`) and reveal + copy the
+#### Sandbox vs live — read this first
+
+Stripe has two separate worlds:
+
+- **Sandbox / test mode** — fake money, for practising. Card numbers like
+  `4242 4242 4242 4242` work. The payment page shows an orange **Sandbox**
+  badge and the web address contains `cs_test_`.
+- **Live mode** — real customers, real money.
+
+They are completely separate: **keys, webhooks, settings and orders do not
+carry over between them.** If you've been testing in a sandbox, going live is
+not a toggle — you have to redo the key and webhook steps in live mode.
+
+To leave the sandbox: click the sandbox/environment switcher at the top-left of
+the Stripe dashboard and choose your real account, then make sure the
+**Test mode** toggle (top right) is **OFF**.
+
+#### Activate the account first
+
+Stripe won't give you working live keys until the business is activated. Go to
+the dashboard home — if there's a "Start accepting live payments" or
+"Complete your profile" prompt, work through it. You'll need:
+
+- Your business/sole-trader details and address
+- A bank account for payouts
+- Photo ID
+
+Approval is usually quick, but can take a day or two. Do this early.
+
+#### Then get the keys
+
+1. In **live mode**, go to **Developers** → **API keys**.
+2. Copy the **Publishable key** (starts `pk_live_`) and reveal + copy the
    **Secret key** (starts `sk_live_`).
 
 In Vercel → your project → **Settings** → **Environment Variables**, add:
@@ -86,26 +115,49 @@ In Vercel → your project → **Settings** → **Environment Variables**, add:
 | `STRIPE_SECRET_KEY` | the `sk_live_…` key |
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | the `pk_live_…` key |
 
+If these already hold `sk_test_`/`pk_test_` values, **edit them** — don't add a
+second copy. Then redeploy (Step 6).
+
 > ⚠️ The secret key is like the password to your bank. Never post it in a
 > message, email or screenshot. If it ever leaks, click **Roll key** in Stripe
 > immediately.
+
+#### Set your business name
+
+In the sandbox your payment page says something random like
+"stripe-sandbox-blue-car". Customers would see that on the page where they type
+their card details, which looks like a scam.
+
+Go to **Settings** → **Business** → **Public details** and set the public
+business name to **AZAD BLACK**. While you're there, add your logo and set the
+brand colour under **Settings** → **Branding**.
 
 ### 4b. Tell Stripe to notify your site about orders
 
 This is what triggers the order emails.
 
-1. In Stripe go to **Developers** → **Webhooks** → **Add endpoint**.
+> 🚨 **The most common mistake.** Webhooks are per-mode. A webhook you created
+> while testing **will not fire on real orders**. You must create a new one in
+> live mode. If you skip this, payments still succeed and money still arrives —
+> but nobody gets an email and orders won't appear on your `/admin` page.
+
+1. In Stripe, **with Test mode OFF**, go to **Developers** → **Webhooks** →
+   **Add endpoint**.
 2. For the URL, enter your site address followed by the webhook path:
    `https://your-domain.co.uk/api/webhooks/stripe`
 3. Under "Select events", choose **`checkout.session.completed`**.
 4. Click **Add endpoint**.
 5. On the endpoint's page, click **Reveal** under *Signing secret* and copy it
    (starts `whsec_`).
-6. Back in Vercel, add:
+6. Back in Vercel, set (or edit):
 
 | Name | Value |
 | --- | --- |
-| `STRIPE_WEBHOOK_SECRET` | the `whsec_…` value |
+| `STRIPE_WEBHOOK_SECRET` | the `whsec_…` value from the **live** endpoint |
+
+To check it's working after your first real order: open the endpoint in Stripe
+and look at its recent deliveries. You want a **200** response. Anything else
+(especially 400) means the signing secret doesn't match — copy it again.
 
 ### 4c. Turn on Stripe's own receipts (recommended)
 
