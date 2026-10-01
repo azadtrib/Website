@@ -1,9 +1,9 @@
 import { siteConfig } from "./site-config";
 import { formatPrice } from "./format";
 
-// Catalog matches the private-label supplier's 100ml dropper bottle
-// (Yiwu Qunsen Craft Co.) — landed cost is roughly £1.04-1.21/unit at
-// 500-2999pcs before customization/shipping. Sold as quantity tiers.
+// Catalog matches the private-label supplier's 30ml dropper bottle
+// (Yiwu Qunsen Craft Co.). The £1.04-1.21/unit landed cost was quoted for the
+// supplier's 100ml listing — confirm the price for 30ml. Sold as quantity tiers.
 
 // The INCI ingredient list, exactly as it appears on the bottle. Every
 // tier is the same oil, so it lives here once. A UK cosmetic has to carry
@@ -40,14 +40,14 @@ export const products = [
     slug: "one-bottle",
     name: "1 Bottle",
     bottles: 1,
-    scent: "100ml beard oil",
+    scent: "30ml beard oil",
     priceCents: SINGLE_BOTTLE_CENTS,
     color: "#c99b6b",
     image: "/products/qty-1.png",
     description:
       "Your first bottle. Lightweight, fast-absorbing oil base that softens coarse hair and calms the itch and flakiness of the first few weeks of growing out.",
     bullets: [
-      "100ml — lasts around 3 months",
+      "30ml — lasts around 2 months",
       "Non-greasy, fast-absorbing",
       "Softens & tames flyaways",
       deliveryBullet(SINGLE_BOTTLE_CENTS),
@@ -57,7 +57,7 @@ export const products = [
     slug: "two-bottles",
     name: "2 Bottles",
     bottles: 2,
-    scent: "2 x 100ml beard oil",
+    scent: "2 x 30ml beard oil",
     priceCents: 2299,
     ...bundlePricing(2, 2299),
     color: "#8fa377",
@@ -65,7 +65,7 @@ export const products = [
     description:
       "Stock up and never run out. Two bottles at a lower price per bottle than buying one at a time.",
     bullets: [
-      "2 x 100ml — around 6 months' supply",
+      "2 x 30ml — around 4 months' supply",
       "Lower price per bottle",
       "Non-greasy, fast-absorbing",
       deliveryBullet(2299),
@@ -75,16 +75,16 @@ export const products = [
     slug: "three-bottles",
     name: "3 Bottles",
     bottles: 3,
-    scent: "3 x 100ml beard oil",
+    scent: "3 x 30ml beard oil",
     priceCents: 3199,
     ...bundlePricing(3, 3199),
     color: "#e2a582",
     image: "/products/qty-3.png",
     isBestValue: true,
     description:
-      "Our best value pack. Around nine months' supply for you, or share the extras — the best way to buy.",
+      "Our best value pack. Around six months' supply for you, or share the extras — the best way to buy.",
     bullets: [
-      "3 x 100ml — around 9 months' supply",
+      "3 x 30ml — around 6 months' supply",
       "Best price per bottle",
       "Great gift option",
       deliveryBullet(3199),

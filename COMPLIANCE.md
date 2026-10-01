@@ -51,7 +51,7 @@ The bottle (and/or the box) must show:
 
 - the product function, if not obvious
 - the **full ingredients list in INCI order**, prefixed "Ingredients:"
-- the nominal content (100ml / 3.38 fl.oz)
+- the nominal content (30ml / 1.01 fl.oz)
 - a batch/lot number
 - best-before date, or period-after-opening symbol if shelf life is over
   30 months

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
 import LegalLayout, { LegalSection } from "@/components/LegalLayout";
-import TraderDetails from "@/components/TraderDetails";
 
 export const metadata = {
   title: "Terms & conditions",
@@ -15,10 +14,6 @@ export default function TermsPage() {
       title="Terms & conditions"
       intro={`These are the terms that apply when you buy from ${siteConfig.brandName}.`}
     >
-      <LegalSection heading="Who you're buying from">
-        <TraderDetails />
-      </LegalSection>
-
       <LegalSection heading="Orders">
         <p>
           Placing an order is an offer to buy. The contract is formed when we
