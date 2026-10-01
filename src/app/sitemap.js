@@ -17,5 +17,11 @@ export default function sitemap() {
       changeFrequency: "weekly",
       priority: 0.8,
     })),
+    ...["/shipping", "/returns", "/terms", "/privacy"].map((path) => ({
+      url: `${siteConfig.url}${path}`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    })),
   ];
 }

@@ -27,9 +27,44 @@ export const siteConfig = {
     "Take better care of yourself. It starts with the little things.",
   guaranteeDays: 30,
   supportEmail: "hello@azadblack.co.uk",
-  instagram: "https://instagram.com",
-  tiktok: "https://tiktok.com",
+
+  // Social links are optional — the footer hides any that are left empty.
+  // A link to instagram.com rather than an actual profile reads as fake, so
+  // leave these blank until the real accounts exist.
+  instagram: "",
+  tiktok: "",
+
   currency: "gbp",
   freeShippingThresholdCents: 3500,
   flatShippingCents: 399,
+  dispatchDays: "1-2 business days",
+  deliveryEstimate: "2-4 business days after dispatch",
+  shipsTo: "United Kingdom",
+
+  // TRADER DETAILS — legally required on a UK selling site, and the legal
+  // pages render these verbatim. Replace every "TODO" before launch.
+  business: {
+    legalName: "TODO: registered company name, or your own name if a sole trader",
+    addressLines: [
+      "TODO: first line of your business address",
+      "TODO: town/city",
+      "TODO: postcode",
+      "United Kingdom",
+    ],
+    // Leave blank if trading as a sole trader rather than a limited company.
+    companyNumber: "",
+    vatNumber: "",
+    // The person or company legally accountable for the cosmetic product in
+    // the UK. Required by the UK Cosmetics Regulation. See COMPLIANCE.md.
+    responsiblePerson: "TODO: name of the UK Responsible Person",
+  },
 };
+
+// True once the trader details above have actually been filled in.
+export function hasTraderDetails() {
+  const { legalName, addressLines } = siteConfig.business;
+  return (
+    !legalName.startsWith("TODO") &&
+    !addressLines.some((line) => line.startsWith("TODO"))
+  );
+}

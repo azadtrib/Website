@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { getProduct, products } from "@/lib/products";
+import { getProduct, products, ingredientsInci } from "@/lib/products";
 import { formatPrice } from "@/lib/format";
 import { siteConfig } from "@/lib/site-config";
 import BottleIcon from "@/components/BottleIcon";
@@ -108,6 +108,30 @@ export default async function ProductPage({ params }) {
           ))}
         </ul>
         <AddToCartForm product={product} />
+
+        <div className="mt-8 pt-6 border-t border-ink/10">
+          <h2 className="text-sm font-semibold text-ink">Ingredients</h2>
+          {ingredientsInci ? (
+            <p className="text-ink/60 text-sm mt-2 leading-relaxed">
+              {ingredientsInci}
+            </p>
+          ) : (
+            <p className="text-ink/60 text-sm mt-2">
+              Full ingredients are printed on the bottle. If you have allergies
+              and want the list before ordering, email{" "}
+              <a
+                href={`mailto:${siteConfig.supportEmail}`}
+                className="text-teal hover:underline"
+              >
+                {siteConfig.supportEmail}
+              </a>
+              .
+            </p>
+          )}
+          <p className="text-ink/40 text-xs mt-3">
+            For external use only. Patch test first if you have sensitive skin.
+          </p>
+        </div>
       </div>
     </div>
   );

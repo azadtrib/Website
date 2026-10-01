@@ -3,6 +3,14 @@
 // 500-2999pcs before customization/shipping. Sold as quantity tiers;
 // the 2 and 3 bottle tiers show a volume discount off their own
 // compareAtCents, the 1 bottle tier is full price with no discount.
+
+// The INCI ingredient list, exactly as it appears on the bottle. Every
+// tier is the same oil, so it lives here once. A UK cosmetic has to carry
+// this on the label, and buyers with allergies need it before they order —
+// get the real list from the supplier and paste it in. Until it's filled
+// in, the product pages say it's available on request rather than invent one.
+export const ingredientsInci = "";
+
 export const products = [
   {
     slug: "one-bottle",
