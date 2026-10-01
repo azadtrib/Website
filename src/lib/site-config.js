@@ -37,9 +37,17 @@ export const siteConfig = {
   currency: "gbp",
   freeShippingThresholdCents: 3500,
   flatShippingCents: 399,
-  dispatchDays: "1-2 business days",
-  deliveryEstimate: "2-4 business days after dispatch",
+  // Business days. Search engines read these as numbers from the product
+  // structured data, and the page wording below is built from the same
+  // values, so the two can never disagree.
+  dispatch: { min: 1, max: 2 },
+  transit: { min: 2, max: 4 },
   shipsTo: "United Kingdom",
+  shipsToCode: "GB",
+
+  // What search results show. Kept separate from the on-page tagline so the
+  // brand copy can stay short while the title still says what's being sold.
+  seoTitle: "AZAD BLACK Beard Oil — Your Daily Essential",
 
   // TRADER DETAILS — legally required on a UK selling site, and the legal
   // pages render these verbatim. Replace every "TODO" before launch.
@@ -59,6 +67,9 @@ export const siteConfig = {
     responsiblePerson: "TODO: name of the UK Responsible Person",
   },
 };
+
+siteConfig.dispatchDays = `${siteConfig.dispatch.min}-${siteConfig.dispatch.max} business days`;
+siteConfig.deliveryEstimate = `${siteConfig.transit.min}-${siteConfig.transit.max} business days after dispatch`;
 
 // True once the trader details above have actually been filled in.
 export function hasTraderDetails() {

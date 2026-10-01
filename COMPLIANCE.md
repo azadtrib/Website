@@ -18,13 +18,34 @@ below are things only you can do.
 Under the UK Cosmetics Regulation you can't legally place a cosmetic on the
 market until all four of these exist.
 
+### Start with your supplier — this could save you a lot
+
+The oil comes from **Guangzhou Biying Cosmetics Co., Ltd.** (Guangzhou, China;
+their own brand is MOOYAM). Their Alibaba listing shows **SCPN (UK)** and
+**CPNP (EU)** certificates for this beard oil, which strongly suggests a UK/EU
+safety assessment already exists for the formula.
+
+But their notification covers *their* product under *their* Responsible
+Person. Once it's relabelled as AZAD BLACK, you're the one placing it on the UK
+market, so you need your own notification and the paperwork behind it. Ask
+them, in writing, for:
+
+- the **CPSR**, and whether it's valid in the UK and covers a 30ml bottle
+  under your label
+- the **full INCI ingredient list with percentages** (the listing only says
+  "Herbal", which isn't enough for a label or for allergy sufferers)
+- their **SCPN notification reference** and who their UK Responsible Person is
+- their **GMP certificate** (ISO 22716 / GMPC)
+- written confirmation of any **cruelty-free** status, if you want to keep
+  that claim
+
 ### A Cosmetic Product Safety Report (CPSR)
 
 A qualified safety assessor reviews the formula and signs off that it's safe
 for its intended use. You can't write this yourself.
 
-- Ask your supplier whether a **UK/EU-valid CPSR** already exists for this
-  formula. Private-label suppliers often have one, which saves you a lot.
+- If the supplier's CPSR is UK-valid and covers your product, you may be able
+  to rely on it. Confirm with the assessor who signed it.
 - If they only have a Chinese or US assessment, it probably won't satisfy UK
   rules — budget for a UK assessor.
 - Expect to supply the exact formula breakdown with percentages.
@@ -53,10 +74,11 @@ The bottle (and/or the box) must show:
 - the **full ingredients list in INCI order**, prefixed "Ingredients:"
 - the nominal content (30ml / 1.01 fl.oz)
 - a batch/lot number
-- best-before date, or period-after-opening symbol if shelf life is over
-  30 months
+- a **period-after-opening symbol** (the open-jar icon, e.g. "12M") rather
+  than a best-before date — the supplier gives a 3-year shelf life, which is
+  over the 30-month cut-off. Ask them what the PAO should be.
 - the **name and UK address of the Responsible Person**
-- country of origin, since it's imported from outside the UK
+- country of origin — **Made in China**
 - any required warnings
 
 > **Action:** get the INCI list from the supplier and paste it into
@@ -69,13 +91,22 @@ Cosmetic claims have to be substantiated and must not stray into medical
 territory. "Softens and conditions" is fine. "Cures", "treats", "guarantees
 growth", "stops hair loss" are not — those make it a medicine.
 
-Two things on the site to check against whatever the supplier can actually
-evidence:
+**Don't copy the supplier's marketing.** Their listing calls it a "Beard
+Growth Oil" that "accelerates hair regrowth" and "eliminates itching and
+dandruff". Growth claims make it a medicine; the rest is stronger than a
+cosmetic can say without evidence. The site deliberately uses none of it.
+This applies to Instagram and TikTok posts too — the ASA treats social media
+posts as advertising.
 
-- the FAQ says the base oils are **"non-comedogenic"** — a specific claim you'd
-  need backing for
-- the trust badges say **"Cruelty-Free"** — fine if the supplier confirms it,
-  but get that in writing
+Still on the site and worth checking:
+
+- the homepage line **"Small batch · Cruelty-free"**. "Small batch" is hard to
+  defend for a factory-made private-label oil, and "cruelty-free" needs the
+  supplier's written confirmation. Reword it if you can't back both.
+
+The FAQ used to call the oil "non-comedogenic". Nothing from the supplier
+supports that, so it now says "made for all skin types", which is what their
+listing states.
 
 ---
 

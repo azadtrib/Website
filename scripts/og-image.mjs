@@ -3,6 +3,7 @@ import sharp from "sharp";
 // Builds public/og.png, the 1200x630 preview shown when the site is shared on
 // WhatsApp, iMessage, X, etc. Re-run with `node scripts/og-image.mjs` after
 // changing the hero photo or tagline.
+// Keep the size in the caption below in step with BOTTLE_SIZE in src/lib/products.js.
 const W = 1200;
 const H = 630;
 

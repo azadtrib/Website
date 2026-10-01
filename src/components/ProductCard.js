@@ -5,6 +5,7 @@ import Image from "next/image";
 import BottleIcon from "./BottleIcon";
 import { useCart } from "@/lib/cart-context";
 import { formatPrice } from "@/lib/format";
+import { siteConfig } from "@/lib/site-config";
 
 export default function ProductCard({ product }) {
   const { addItem } = useCart();
@@ -33,7 +34,7 @@ export default function ProductCard({ product }) {
         {product.image ? (
           <Image
             src={product.image}
-            alt={product.name}
+            alt={`${siteConfig.brandName} beard oil, ${product.scent}`}
             fill
             sizes="(max-width: 640px) 50vw, 33vw"
             className="object-cover transition-transform duration-500 group-hover:scale-105"

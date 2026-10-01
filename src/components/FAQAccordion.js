@@ -4,43 +4,35 @@ import { useState } from "react";
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
 import { formatPrice } from "@/lib/format";
+import { BOTTLE_SIZE } from "@/lib/products";
+import { faqSchema, jsonLd } from "@/lib/seo";
 
 const linkClass = "text-teal hover:underline";
 
+// Plain-text answers so the same words feed both the page and the FAQPage
+// structured data; the optional link is appended on the page only.
 const faqs = [
   {
     q: "How long does one bottle last?",
-    a: "With a few drops a day, most guys get about 2 months out of a 30ml bottle.",
+    text: `With a few drops a day, most guys get about 2 months out of a ${BOTTLE_SIZE} bottle.`,
   },
   {
     q: "Will it clog my pores or cause breakouts?",
-    a: "Our base oils are non-comedogenic and absorb quickly, so they shouldn't clog pores for most skin types.",
+    // "Non-comedogenic" was here, but nothing from the supplier supports it.
+    // "All skin types" is what their listing actually states.
+    text: "It's a lightweight oil made for all skin types, and it absorbs quickly rather than sitting on the skin. If your skin is sensitive or breakout-prone, patch test on a small area first.",
   },
   {
     q: "What's your return policy?",
-    a: (
-      <>
-        If you&apos;re not happy, reach out within {siteConfig.guaranteeDays} days of
-        delivery for a full refund — even if you&apos;ve opened it.{" "}
-        <Link href="/returns" className={linkClass}>
-          Full returns policy
-        </Link>
-      </>
-    ),
+    text: `If you're not happy, reach out within ${siteConfig.guaranteeDays} days of delivery for a full refund — even if you've opened it.`,
+    link: { href: "/returns", label: "Full returns policy" },
   },
   {
     q: "How long does delivery take, and what does it cost?",
-    a: (
-      <>
-        We dispatch within {siteConfig.dispatchDays}, and delivery is usually{" "}
-        {siteConfig.deliveryEstimate}. It&apos;s{" "}
-        {formatPrice(siteConfig.flatShippingCents)}, or free over{" "}
-        {formatPrice(siteConfig.freeShippingThresholdCents)}.{" "}
-        <Link href="/shipping" className={linkClass}>
-          Delivery details
-        </Link>
-      </>
-    ),
+    text:
+      `We dispatch within ${siteConfig.dispatchDays}, and delivery is usually ${siteConfig.deliveryEstimate}. ` +
+      `It's ${formatPrice(siteConfig.flatShippingCents)}, or free over ${formatPrice(siteConfig.freeShippingThresholdCents)}.`,
+    link: { href: "/shipping", label: "Delivery details" },
   },
 ];
 
@@ -49,6 +41,7 @@ export default function FAQAccordion() {
 
   return (
     <section id="faq" className="py-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(faqSchema(faqs))} />
       <div className="mx-auto max-w-3xl px-5">
         <h2 className="text-2xl font-bold text-center mb-10">
           Frequently asked questions
@@ -92,7 +85,15 @@ export default function FAQAccordion() {
                         isOpen ? "opacity-100" : "opacity-0"
                       }`}
                     >
-                      {faq.a}
+                      {faq.text}
+                      {faq.link && (
+                        <>
+                          {" "}
+                          <Link href={faq.link.href} className={linkClass}>
+                            {faq.link.label}
+                          </Link>
+                        </>
+                      )}
                     </p>
                   </div>
                 </div>

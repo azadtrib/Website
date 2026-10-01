@@ -1,5 +1,10 @@
 import Link from "next/link";
 
+export const metadata = {
+  title: "Checkout cancelled",
+  robots: { index: false, follow: true },
+};
+
 export default function CancelPage() {
   return (
     <div className="mx-auto max-w-lg px-5 py-24 text-center">

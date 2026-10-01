@@ -29,7 +29,7 @@ export default function Hero() {
         >
           <Image
             src="/hero.png"
-            alt={siteConfig.brandName}
+            alt={`${siteConfig.brandName} founder holding a dropper bottle of beard oil`}
             width={620}
             height={633}
             priority

@@ -6,6 +6,7 @@ import Nav from "@/components/Nav";
 import CartDrawer from "@/components/CartDrawer";
 import Footer from "@/components/Footer";
 import { siteConfig } from "@/lib/site-config";
+import { siteDescription } from "@/lib/seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,44 +21,44 @@ const geistMono = Geist_Mono({
 export const metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.brandName} — ${siteConfig.tagline}`,
+    default: siteConfig.seoTitle,
     template: `%s | ${siteConfig.brandName}`,
   },
-  description: siteConfig.description,
+  description: siteDescription(),
   applicationName: siteConfig.brandName,
-  keywords: [
-    "beard oil",
-    "beard care",
-    "men's grooming",
-    "beard oil UK",
-    siteConfig.brandName,
-  ],
-  alternates: { canonical: "/" },
+  // No canonical here: set on the root layout it's inherited by every page
+  // that forgets its own, and each of those then claims to be the homepage.
   openGraph: {
     type: "website",
     siteName: siteConfig.brandName,
-    title: `${siteConfig.brandName} — ${siteConfig.tagline}`,
-    description: siteConfig.description,
+    title: siteConfig.seoTitle,
+    description: siteDescription(),
     url: siteConfig.url,
     locale: "en_GB",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: siteConfig.brandName }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: `${siteConfig.brandName} beard oil` }],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.brandName} — ${siteConfig.tagline}`,
-    description: siteConfig.description,
+    title: siteConfig.seoTitle,
+    description: siteDescription(),
     images: ["/og.png"],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html
-      lang="en"
+      lang="en-GB"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-cream text-ink">

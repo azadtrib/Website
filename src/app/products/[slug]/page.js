@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { getProduct, products, ingredientsInci } from "@/lib/products";
+import { Fragment } from "react";
+import { getProduct, products, ingredientsInci, productDetails, BOTTLE_SIZE } from "@/lib/products";
 import { formatPrice } from "@/lib/format";
 import { siteConfig } from "@/lib/site-config";
+import { breadcrumbSchema, jsonLd, productDescription, productSchema } from "@/lib/seo";
 import BottleIcon from "@/components/BottleIcon";
 import AddToCartForm from "@/components/AddToCartForm";
 import PurchaseReassurance from "@/components/PurchaseReassurance";
@@ -16,24 +18,29 @@ export async function generateMetadata({ params }) {
   const product = getProduct(slug);
   if (!product) return {};
 
-  const title = `${product.name} — ${product.scent}`;
+  // Keyword first, price in the title: "1 Bottle — 30ml beard oil" said
+  // nothing about what the shop sells to someone scanning search results.
+  const title = `${siteConfig.brandName} Beard Oil ${BOTTLE_SIZE} — ${product.name}, ${formatPrice(product.priceCents)}`;
+  const description = productDescription(product);
   const url = `${siteConfig.url}/products/${product.slug}`;
+  const imageAlt = `${siteConfig.brandName} beard oil, ${product.scent}`;
 
   return {
-    title,
-    description: product.description,
+    // absolute: the layout's "| AZAD BLACK" suffix would repeat the brand.
+    title: { absolute: title },
+    description,
     alternates: { canonical: `/products/${product.slug}` },
     openGraph: {
       type: "website",
       title,
-      description: product.description,
+      description,
       url,
-      images: product.image ? [{ url: product.image, alt: product.name }] : undefined,
+      images: product.image ? [{ url: product.image, alt: imageAlt }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
       title,
-      description: product.description,
+      description,
       images: product.image ? [product.image] : undefined,
     },
   };
@@ -44,33 +51,15 @@ export default async function ProductPage({ params }) {
   const product = getProduct(slug);
   if (!product) notFound();
 
-  const productSchema = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: `${siteConfig.brandName} ${product.name}`,
-    description: product.description,
-    image: product.image ? `${siteConfig.url}${product.image}` : undefined,
-    brand: { "@type": "Brand", name: siteConfig.brandName },
-    offers: {
-      "@type": "Offer",
-      url: `${siteConfig.url}/products/${product.slug}`,
-      priceCurrency: siteConfig.currency.toUpperCase(),
-      price: (product.priceCents / 100).toFixed(2),
-      availability: "https://schema.org/InStock",
-    },
-  };
-
   return (
     <div className="mx-auto max-w-5xl px-5 py-16 grid sm:grid-cols-2 gap-12">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(productSchema(product))} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(breadcrumbSchema(product))} />
       <div className="flex justify-center items-center bg-peach-light rounded-2xl py-16 min-h-[22rem]">
         {product.image ? (
           <Image
             src={product.image}
-            alt={product.name}
+            alt={`${siteConfig.brandName} beard oil, ${product.scent}`}
             width={280}
             height={280}
             className="w-full max-w-[280px] h-auto object-contain rounded-lg"
@@ -115,6 +104,20 @@ export default async function ProductPage({ params }) {
         <PurchaseReassurance className="mt-5" />
 
         <div className="mt-8 pt-6 border-t border-ink/10">
+          <h2 className="text-sm font-semibold text-ink">Details</h2>
+          <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-6 gap-y-1.5 text-sm">
+            <dt className="text-ink/50">Size</dt>
+            <dd className="text-ink/70">{BOTTLE_SIZE} dropper bottle</dd>
+            {productDetails.map((d) => (
+              <Fragment key={d.label}>
+                <dt className="text-ink/50">{d.label}</dt>
+                <dd className="text-ink/70">{d.value}</dd>
+              </Fragment>
+            ))}
+          </dl>
+        </div>
+
+        <div className="mt-6 pt-6 border-t border-ink/10">
           <h2 className="text-sm font-semibold text-ink">Ingredients</h2>
           {ingredientsInci ? (
             <p className="text-ink/60 text-sm mt-2 leading-relaxed">

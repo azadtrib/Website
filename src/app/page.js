@@ -5,33 +5,25 @@ import ProductCard from "@/components/ProductCard";
 import FAQAccordion from "@/components/FAQAccordion";
 import { products } from "@/lib/products";
 import { siteConfig } from "@/lib/site-config";
+import { jsonLd, organizationSchema, websiteSchema } from "@/lib/seo";
+
+export const metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
-  // Ties the brand to its social profiles so search engines treat them as
-  // the same entity.
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: siteConfig.brandName,
-    url: siteConfig.url,
-    logo: `${siteConfig.url}/icon.svg`,
-    email: siteConfig.supportEmail,
-    sameAs: [siteConfig.instagram, siteConfig.tiktok].filter(Boolean),
-  };
-
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-      />
+      {/* Ties the brand to its social profiles and names the site in results. */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(organizationSchema())} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(websiteSchema())} />
       <Hero />
 
       <section id="story" className="bg-navy py-16 border-y border-ink/5">
         <div className="mx-auto max-w-4xl px-5 grid sm:grid-cols-[auto_1fr] gap-10 items-start">
           <Image
             src="/about/founder.png"
-            alt="Founder of the brand"
+            alt={`${siteConfig.brandName} founder holding a bottle of the beard oil`}
             width={256}
             height={256}
             className="w-56 h-56 sm:w-64 sm:h-64 rounded-2xl object-cover mx-auto border-2 border-teal/40"
