@@ -1,6 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   poweredByHeader: false,
+  // The three pack pages were merged into one product page; anyone holding
+  // an old link (or a search engine) is sent there permanently. Limited to
+  // the old slugs on purpose: redirects run before /public is served, and the
+  // product photos live under /products/ too.
+  redirects() {
+    return [
+      {
+        source: "/products/:slug(one-bottle|two-bottles|three-bottles)",
+        destination: "/beard-oil",
+        permanent: true,
+      },
+    ];
+  },
   headers() {
     return [
       {

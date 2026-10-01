@@ -1,4 +1,5 @@
-import { siteConfig } from "@/lib/site-config";
+import Link from "next/link";
+import { siteConfig, shipStatus } from "@/lib/site-config";
 import { formatPrice } from "@/lib/format";
 import LegalLayout, { LegalSection } from "@/components/LegalLayout";
 
@@ -35,14 +36,22 @@ export default function ShippingPage() {
         </p>
       </LegalSection>
 
-      <LegalSection heading="Timings">
+      <LegalSection heading="Timings — this is a pre-order">
         <p>
-          We dispatch orders within {siteConfig.dispatchDays}. Delivery is
-          usually {siteConfig.deliveryEstimate}.
+          The first drop is sold as a pre-order: you order now, and we ship
+          everyone&apos;s together once the stock arrives. {shipStatus()}
         </p>
         <p>
-          You&apos;ll get an email when you order, and another one as soon as
-          your parcel is out for delivery.
+          You&apos;ll get an email when you order, another when we have a
+          confirmed ship date, and another as soon as your parcel is out for
+          delivery. From there it usually takes {siteConfig.transitText}.
+        </p>
+        <p>
+          If the wait doesn&apos;t suit you, you can cancel any time before
+          it ships for a full refund.{" "}
+          <Link href="/returns" className="text-teal hover:underline">
+            How to cancel
+          </Link>
         </p>
       </LegalSection>
 

@@ -1,6 +1,5 @@
 "use server";
 
-import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import {
   clearFailedLogins,
@@ -12,12 +11,8 @@ import {
   recordFailedLogin,
   verifyPassword,
 } from "@/lib/admin-auth";
-import { markOutForDelivery, parseTrackingUrl } from "@/lib/orders";
-
-async function clientId() {
-  const h = await headers();
-  return h.get("x-forwarded-for")?.split(",")[0].trim() || h.get("x-real-ip") || "unknown";
-}
+import { markOutForDelivery, notifyShipDate, parseTrackingUrl } from "@/lib/orders";
+import { clientId } from "@/lib/rate-limit";
 
 export async function login(_prevState, formData) {
   const id = await clientId();
@@ -73,5 +68,25 @@ export async function markDelivered(_prevState, formData) {
     };
   } catch (err) {
     return { error: err.message || "Could not update that order.", ok: null };
+  }
+}
+
+export async function sendShipDateToCustomers(_prevState, formData) {
+  if (!(await isAdminAuthenticated())) {
+    return { error: "Not signed in.", ok: null };
+  }
+  if (formData.get("confirm") !== "yes") {
+    return { error: "Tick the box to confirm before emailing customers.", ok: null };
+  }
+
+  try {
+    const { sent, alreadyTold, failed, waiting } = await notifyShipDate(formData.get("shipDate"));
+    revalidatePath("/admin");
+    const parts = [`Emailed ${sent} of ${waiting} waiting order${waiting === 1 ? "" : "s"}.`];
+    if (alreadyTold) parts.push(`${alreadyTold} had already been told this date.`);
+    if (failed) parts.push(`${failed} failed — run it again to retry just those.`);
+    return { error: null, ok: parts.join(" ") };
+  } catch (err) {
+    return { error: err.message || "Could not send the ship date.", ok: null };
   }
 }

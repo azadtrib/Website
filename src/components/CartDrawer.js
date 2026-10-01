@@ -1,14 +1,19 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { MAX_LINE_QUANTITY, useCart } from "@/lib/cart-context";
 import { siteConfig } from "@/lib/site-config";
 import { formatPrice } from "@/lib/format";
 import { bundleSuggestion } from "@/lib/bundles";
+import { openOfferModal, useOfferState, useTimeLeft } from "@/lib/offer-client";
 import PurchaseReassurance from "./PurchaseReassurance";
 
 export default function CartDrawer() {
   const { items, isOpen, closeCart, updateQuantity, addItem, subtotalCents } = useCart();
+  const { offer } = useOfferState();
+  const offerTimeLeft = useTimeLeft(offer?.expiresAt);
+  const offerActive = offer && offerTimeLeft && offerTimeLeft !== "expired";
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const closeButtonRef = useRef(null);
@@ -73,6 +78,9 @@ export default function CartDrawer() {
   const freeDelivery = subtotalCents >= siteConfig.freeShippingThresholdCents;
   const deliveryCents = hasItems && !freeDelivery ? siteConfig.flatShippingCents : 0;
   const toFreeDeliveryCents = siteConfig.freeShippingThresholdCents - subtotalCents;
+  // Stripe takes the percentage off the products, not delivery — mirrored
+  // here so the total shown matches what checkout charges.
+  const discountCents = offerActive ? Math.round((subtotalCents * offer.percentOff) / 100) : 0;
   const suggestion = bundleSuggestion(items);
 
   function applySuggestion() {
@@ -118,7 +126,18 @@ export default function CartDrawer() {
         </div>
 
         <div className="flex-1 overflow-y-auto p-5 space-y-4">
-          {!hasItems && <p className="text-ink/60 text-sm">Your basket is empty.</p>}
+          {!hasItems && (
+            <div className="text-sm">
+              <p className="text-ink/60">Your basket is empty.</p>
+              <Link
+                href="/beard-oil#first-drop"
+                onClick={closeCart}
+                className="inline-block mt-3 text-teal hover:underline underline-offset-4"
+              >
+                Pre-order the first drop →
+              </Link>
+            </div>
+          )}
 
           {items.map((item) => (
             <div key={item.slug} className="flex items-center justify-between gap-3">
@@ -182,10 +201,30 @@ export default function CartDrawer() {
               <span>{deliveryCents === 0 ? "Free" : formatPrice(deliveryCents)}</span>
             </div>
           )}
+          {hasItems && offerActive && (
+            <div className="flex justify-between text-sm text-teal">
+              <span>
+                First-drop {offer.percentOff}% off
+                <span className="block text-[11px] text-ink/45">
+                  Applied at checkout · {offerTimeLeft}
+                </span>
+              </span>
+              <span>−{formatPrice(discountCents)}</span>
+            </div>
+          )}
           <div className="flex justify-between font-semibold">
             <span>Total</span>
-            <span>{formatPrice(subtotalCents + deliveryCents)}</span>
+            <span>{formatPrice(subtotalCents - discountCents + deliveryCents)}</span>
           </div>
+          {hasItems && !offerActive && (
+            <button
+              type="button"
+              onClick={openOfferModal}
+              className="text-xs text-teal hover:underline underline-offset-4"
+            >
+              Get {siteConfig.offer.percentOff}% off your pre-order →
+            </button>
+          )}
           {error && (
             <p role="alert" className="text-red-400 text-xs">
               {error}
@@ -197,7 +236,7 @@ export default function CartDrawer() {
             onClick={handleCheckout}
             className="w-full bg-ink text-cream rounded-full py-3 font-semibold disabled:opacity-40 transition-all duration-200 hover:opacity-85 active:scale-95"
           >
-            {loading ? "Redirecting…" : "Checkout"}
+            {loading ? "Redirecting…" : "Pre-order securely"}
           </button>
           {hasItems && <PurchaseReassurance onNavigate={closeCart} className="pt-1" />}
         </div>

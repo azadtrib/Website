@@ -1,24 +1,32 @@
 import { getStripeClient } from "./stripe";
-import { sendOutForDelivery } from "./email";
+import { sendOutForDelivery, sendShipDateEmail } from "./email";
+import { hmacHex } from "./signing";
 
 // Stripe is the source of truth for orders — there is no separate database.
 // Delivery state lives in the PaymentIntent's metadata.
 const DELIVERY_FLAG = "out_for_delivery_at";
 const TRACKING_NUMBER = "tracking_number";
 const TRACKING_URL = "tracking_url";
+const SHIP_DATE_NOTICE = "ship_date_notice";
 
 export function orderNumberFromSession(sessionId) {
   return `AB-${sessionId.slice(-8).toUpperCase()}`;
 }
 
-export async function listRecentOrders(limit = 50) {
+// Only completed sessions, paged through. Every abandoned checkout also
+// creates a session, so taking "the latest 50" of all of them would let real
+// orders fall off the list once enough people changed their minds.
+export async function listRecentOrders(max = 500) {
   const stripe = getStripeClient();
-  const sessions = await stripe.checkout.sessions.list({
-    limit,
-    expand: ["data.line_items", "data.payment_intent"],
-  });
+  const sessions = await stripe.checkout.sessions
+    .list({
+      status: "complete",
+      limit: 100,
+      expand: ["data.line_items", "data.payment_intent"],
+    })
+    .autoPagingToArray({ limit: max });
 
-  return sessions.data
+  return sessions
     .filter((session) => session.payment_status === "paid")
     .map((session) => {
       const address = session.collected_information?.shipping_details?.address;
@@ -42,8 +50,52 @@ export async function listRecentOrders(limit = 50) {
           session.payment_intent?.metadata?.[DELIVERY_FLAG] || null,
         trackingNumber: session.payment_intent?.metadata?.[TRACKING_NUMBER] || null,
         trackingUrl: session.payment_intent?.metadata?.[TRACKING_URL] || null,
+        shipDateNotice: session.payment_intent?.metadata?.[SHIP_DATE_NOTICE] || null,
+        paymentIntentId: session.payment_intent?.id || null,
       };
     });
+}
+
+// Emails every paid order that hasn't shipped yet with its expected ship
+// date. Safe to run again: an order already told this exact date is skipped,
+// and each email carries an idempotency key, so a retry after a timeout picks
+// up where it stopped instead of emailing people twice.
+export async function notifyShipDate(rawShipDate) {
+  const shipDate = String(rawShipDate || "").trim().slice(0, 80);
+  if (!shipDate) throw new Error("Enter the ship date first.");
+
+  const stripe = getStripeClient();
+  const waiting = (await listRecentOrders(2000)).filter(
+    (o) => !o.outForDeliveryAt && o.customerEmail && o.paymentIntentId
+  );
+
+  const tally = { sent: 0, alreadyTold: 0, failed: 0 };
+  const dateKey = hmacHex(shipDate).slice(0, 16);
+
+  for (const order of waiting) {
+    if (order.shipDateNotice === shipDate) {
+      tally.alreadyTold += 1;
+      continue;
+    }
+    const result = await sendShipDateEmail({
+      to: order.customerEmail,
+      orderNumber: order.orderNumber,
+      shipDate,
+      idempotencyKey: `ship-date/${order.id}/${dateKey}`,
+    }).catch((err) => ({ error: err }));
+
+    if (result?.error) {
+      console.error(`Ship-date email failed for ${order.orderNumber}:`, result.error);
+      tally.failed += 1;
+      continue;
+    }
+    await stripe.paymentIntents.update(order.paymentIntentId, {
+      metadata: { [SHIP_DATE_NOTICE]: shipDate },
+    });
+    tally.sent += 1;
+  }
+
+  return { ...tally, waiting: waiting.length };
 }
 
 // The tracking link ends up as an <a href> in a customer email, so only a

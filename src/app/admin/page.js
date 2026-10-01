@@ -1,8 +1,10 @@
 import { isAdminAuthenticated, isAdminConfigured } from "@/lib/admin-auth";
 import { listRecentOrders } from "@/lib/orders";
+import { listSignups } from "@/lib/offer";
 import { formatPrice } from "@/lib/format";
 import LoginForm from "./LoginForm";
 import MarkDeliveredButton from "./MarkDeliveredButton";
+import ShipDateForm from "./ShipDateForm";
 import { logout } from "./actions";
 
 export const metadata = {
@@ -30,11 +32,14 @@ export default async function AdminPage() {
 
   let orders = [];
   let loadError = null;
-  try {
-    orders = await listRecentOrders();
-  } catch (err) {
-    loadError = err.message;
-  }
+  let signupCount = null;
+  const [ordersResult, signupsResult] = await Promise.allSettled([
+    listRecentOrders(),
+    listSignups(),
+  ]);
+  if (ordersResult.status === "fulfilled") orders = ordersResult.value;
+  else loadError = ordersResult.reason?.message || "unknown error";
+  if (signupsResult.status === "fulfilled") signupCount = signupsResult.value.length;
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-12">
@@ -47,12 +52,35 @@ export default async function AdminPage() {
         </form>
       </div>
 
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-3 bg-navy border border-ink/10 rounded-2xl p-5">
+        <div>
+          <p className="font-semibold">Email sign-ups</p>
+          <p className="text-ink/60 text-sm">
+            {signupCount === null
+              ? "Couldn't load the count right now."
+              : `${signupCount} ${signupCount === 1 ? "person has" : "people have"} joined the list.`}
+          </p>
+        </div>
+        <a
+          href="/admin/signups.csv"
+          className="border border-ink/20 rounded-full px-5 py-2 text-sm font-semibold hover:border-ink/50 transition-colors"
+        >
+          Download CSV
+        </a>
+      </div>
+
       {loadError && (
         <p className="text-red-400 text-sm mb-6">Could not load orders: {loadError}</p>
       )}
 
       {!loadError && orders.length === 0 && (
         <p className="text-ink/60">No paid orders yet.</p>
+      )}
+
+      {!loadError && orders.length > 0 && (
+        <div className="mb-8">
+          <ShipDateForm waiting={orders.filter((o) => !o.outForDeliveryAt).length} />
+        </div>
       )}
 
       <div className="space-y-4">
@@ -87,6 +115,11 @@ export default async function AdminPage() {
               <span className="text-ink/50">Email:</span>{" "}
               {order.customerEmail || "unknown"}
             </p>
+            {order.shipDateNotice && !order.outForDeliveryAt && (
+              <p className="text-sm text-ink/70">
+                <span className="text-ink/50">Told ship date:</span> {order.shipDateNotice}
+              </p>
+            )}
 
             <div className="mt-4">
               {order.outForDeliveryAt ? (

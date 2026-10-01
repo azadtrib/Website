@@ -1,6 +1,3 @@
-import { siteConfig } from "./site-config";
-import { formatPrice } from "./format";
-
 // Private-label beard oil from Guangzhou Biying Cosmetics Co., Ltd. (their
 // own brand is MOOYAM), relabelled as AZAD BLACK in a 30ml dropper bottle.
 // Listed at £0.31-0.37/unit before customisation and shipping, MOQ 3.
@@ -30,6 +27,15 @@ export const productDetails = [
 export const oilDescription =
   "A lightweight, fast-absorbing beard oil that softens coarse hair and calms the itch and flakiness of growing out a beard.";
 
+// What the oil does, stated as a cosmetic can honestly state it. The
+// supplier's own listing calls it a "growth oil"; this deliberately doesn't.
+export const oilBenefits = [
+  "Softens coarse, wiry hair",
+  "Calms the itch and the flakes underneath",
+  "A light shine — no hold, no stiffness",
+  "Fresh, natural scent",
+];
+
 // The one place the bottle size is set — every label, title and supply
 // estimate on the site reads it from here.
 export const BOTTLE_SIZE = "30ml";
@@ -37,26 +43,16 @@ export const BOTTLE_SIZE = "30ml";
 const SINGLE_BOTTLE_CENTS = 1399;
 
 // A struck-through reference price has to be a genuine price or it's a
-// misleading saving under UK pricing law. The honest reference for a bundle
+// misleading saving under UK pricing law. The honest reference for a pack
 // is what the same number of single bottles costs, so it's derived from the
 // single-bottle price rather than typed in, and can't drift from it.
-function bundlePricing(bottles, priceCents) {
+function packPricing(bottles, priceCents) {
   const compareAtCents = bottles * SINGLE_BOTTLE_CENTS;
-  return {
-    compareAtCents,
-    discountPercent: Math.floor(((compareAtCents - priceCents) / compareAtCents) * 100),
-    savingCents: compareAtCents - priceCents,
-  };
+  return { compareAtCents, savingCents: compareAtCents - priceCents };
 }
 
-// Kept in step with checkout: no single tier clears the free-delivery
-// threshold on its own, so none of them can promise free delivery outright.
-function deliveryBullet(priceCents) {
-  return priceCents >= siteConfig.freeShippingThresholdCents
-    ? "Free UK delivery"
-    : `Free UK delivery over ${formatPrice(siteConfig.freeShippingThresholdCents)}`;
-}
-
+// The packs. Every one is the same oil; only the number of bottles differs.
+// `slug` is what the basket and checkout use to identify a pack.
 export const products = [
   {
     slug: "one-bottle",
@@ -64,16 +60,7 @@ export const products = [
     bottles: 1,
     scent: `${BOTTLE_SIZE} beard oil`,
     priceCents: SINGLE_BOTTLE_CENTS,
-    color: "#c99b6b",
     image: "/products/qty-1.png",
-    description:
-      "Your first bottle. Lightweight, fast-absorbing oil base that softens coarse hair and calms the itch and flakiness of the first few weeks of growing out.",
-    bullets: [
-      `${BOTTLE_SIZE} — lasts around 2 months`,
-      "Non-greasy, fast-absorbing",
-      "Softens & tames flyaways",
-      deliveryBullet(SINGLE_BOTTLE_CENTS),
-    ],
   },
   {
     slug: "two-bottles",
@@ -81,17 +68,8 @@ export const products = [
     bottles: 2,
     scent: `2 x ${BOTTLE_SIZE} beard oil`,
     priceCents: 2299,
-    ...bundlePricing(2, 2299),
-    color: "#8fa377",
+    ...packPricing(2, 2299),
     image: "/products/qty-2.png",
-    description:
-      "Stock up and never run out. Two bottles at a lower price per bottle than buying one at a time.",
-    bullets: [
-      `2 x ${BOTTLE_SIZE} — around 4 months' supply`,
-      "Lower price per bottle",
-      "Non-greasy, fast-absorbing",
-      deliveryBullet(2299),
-    ],
   },
   {
     slug: "three-bottles",
@@ -99,18 +77,9 @@ export const products = [
     bottles: 3,
     scent: `3 x ${BOTTLE_SIZE} beard oil`,
     priceCents: 3199,
-    ...bundlePricing(3, 3199),
-    color: "#e2a582",
+    ...packPricing(3, 3199),
     image: "/products/qty-3.png",
     isBestValue: true,
-    description:
-      "Our best value pack. Around six months' supply for you, or share the extras — the best way to buy.",
-    bullets: [
-      `3 x ${BOTTLE_SIZE} — around 6 months' supply`,
-      "Best price per bottle",
-      "Great gift option",
-      deliveryBullet(3199),
-    ],
   },
 ];
 

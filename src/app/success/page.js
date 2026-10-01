@@ -3,10 +3,10 @@ import ClearCartOnLoad from "@/components/ClearCartOnLoad";
 import { getStripeClient } from "@/lib/stripe";
 import { orderNumberFromSession } from "@/lib/orders";
 import { formatPrice } from "@/lib/format";
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig, shipStatus } from "@/lib/site-config";
 
 export const metadata = {
-  title: "Order confirmed",
+  title: "Pre-order confirmed",
   robots: { index: false, follow: false },
 };
 
@@ -64,23 +64,36 @@ export default async function SuccessPage({ searchParams }) {
     <div className="mx-auto max-w-lg px-5 py-24">
       <ClearCartOnLoad />
       <div className="text-center">
-        <h1 className="text-3xl font-bold">You&apos;re all set 🎉</h1>
+        <p className="text-teal text-xs font-semibold uppercase tracking-widest">
+          Pre-order confirmed
+        </p>
+        <h1 className="text-3xl font-bold mt-3">You&apos;re one of the first.</h1>
         <p className="text-ink/70 mt-4">
-          Thanks for your order
+          Thanks for backing the first {siteConfig.brandName} drop
           {order.email ? (
             <>
-              {" "}— a confirmation email is on its way to{" "}
+              {" "}— a confirmation is on its way to{" "}
               <span className="text-ink">{order.email}</span>.
             </>
           ) : (
             "."
           )}
         </p>
-        <p className="text-ink/70 mt-3">
-          We&apos;ll email you again as soon as your package is{" "}
-          <span className="text-teal font-semibold">out for delivery</span>.
-        </p>
       </div>
+
+      <ol className="mt-8 space-y-3 text-sm text-ink/70">
+        <li>
+          <span className="text-ink font-semibold">Ship date:</span> {shipStatus()}
+        </li>
+        <li>
+          <span className="text-ink font-semibold">Delivery:</span> we&apos;ll email you when
+          it&apos;s out for delivery; it arrives {siteConfig.transitText} after that.
+        </li>
+        <li>
+          <span className="text-ink font-semibold">Changed your mind?</span> Reply to your
+          confirmation email any time before it ships for a full refund.
+        </li>
+      </ol>
 
       <div className="mt-10 bg-navy border border-ink/10 rounded-2xl p-6">
         <p className="text-ink/50 text-xs uppercase tracking-wide">Order reference</p>
@@ -100,7 +113,7 @@ export default async function SuccessPage({ searchParams }) {
           <span>{formatPrice(order.totalCents)}</span>
         </div>
         <p className="text-ink/40 text-xs mt-4">
-          Includes delivery. Keep the reference handy if you need to get in touch.
+          Includes delivery and any discount. Keep the reference handy if you need to get in touch.
         </p>
       </div>
 

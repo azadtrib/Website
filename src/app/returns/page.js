@@ -1,4 +1,4 @@
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig, shipStatus } from "@/lib/site-config";
 import LegalLayout, { LegalSection } from "@/components/LegalLayout";
 
 export const metadata = {
@@ -13,6 +13,25 @@ export default function ReturnsPage() {
       title="Returns & refunds"
       intro="If something isn't right, we'll sort it out. Here's exactly where you stand."
     >
+      <LegalSection heading="Cancelling a pre-order">
+        <p>
+          You can cancel a pre-order any time before it ships, for any reason, and we&apos;ll
+          refund everything you paid — including delivery. Email{" "}
+          <a
+            href={`mailto:${siteConfig.supportEmail}`}
+            className="text-teal hover:underline"
+          >
+            {siteConfig.supportEmail}
+          </a>{" "}
+          with your order reference, or just reply to your confirmation email.
+        </p>
+        <p>
+          {shipStatus()} If we haven&apos;t given you a ship date, UK law expects delivery
+          within 30 days of your order — after that you can cancel regardless, though with us
+          you can anyway.
+        </p>
+      </LegalSection>
+
       <LegalSection heading={`Our ${siteConfig.guaranteeDays}-day guarantee`}>
         <p>
           If you&apos;re not happy with your beard oil, contact us within{" "}

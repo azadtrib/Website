@@ -1,27 +1,8 @@
-import { createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
+import { safeEqual, signValue, verifySignedValue } from "./signing";
 
 const COOKIE_NAME = "admin_session";
 const MAX_AGE_SECONDS = 60 * 60 * 12;
-
-function getSecret() {
-  // Falls back to the Stripe key so the admin page still works if only
-  // ADMIN_PASSWORD was set, but ADMIN_SESSION_SECRET is the documented way.
-  const secret = process.env.ADMIN_SESSION_SECRET || process.env.STRIPE_SECRET_KEY;
-  if (!secret) throw new Error("No secret available to sign admin sessions.");
-  return secret;
-}
-
-function sign(value) {
-  return createHmac("sha256", getSecret()).update(value).digest("hex");
-}
-
-function safeEqual(a, b) {
-  const bufA = Buffer.from(a);
-  const bufB = Buffer.from(b);
-  if (bufA.length !== bufB.length) return false;
-  return timingSafeEqual(bufA, bufB);
-}
 
 // Login throttling. On serverless hosting each running instance keeps its
 // own copy of this map, so the lockout is per-instance rather than global —
@@ -75,8 +56,7 @@ export function verifyPassword(candidate) {
 }
 
 export async function createAdminSession() {
-  const expiresAt = String(Date.now() + MAX_AGE_SECONDS * 1000);
-  const token = `${expiresAt}.${sign(expiresAt)}`;
+  const token = signValue(String(Date.now() + MAX_AGE_SECONDS * 1000));
   const cookieStore = await cookies();
   cookieStore.set(COOKIE_NAME, token, {
     httpOnly: true,
@@ -94,11 +74,6 @@ export async function destroyAdminSession() {
 
 export async function isAdminAuthenticated() {
   const cookieStore = await cookies();
-  const token = cookieStore.get(COOKIE_NAME)?.value;
-  if (!token) return false;
-
-  const [expiresAt, signature] = token.split(".");
-  if (!expiresAt || !signature) return false;
-  if (!safeEqual(signature, sign(expiresAt))) return false;
-  return Number(expiresAt) > Date.now();
+  const expiresAt = verifySignedValue(cookieStore.get(COOKIE_NAME)?.value);
+  return expiresAt !== null && Number(expiresAt) > Date.now();
 }

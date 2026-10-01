@@ -170,7 +170,15 @@ your branded confirmation email.
 ## Step 5 — Connect Resend (order emails)
 
 1. Sign up at [resend.com](https://resend.com).
-2. Go to **API Keys** → **Create API Key**, and copy it (starts `re_`).
+2. Go to **API Keys** → **Create API Key**. Set **Permission** to **Full
+   access** — not "Sending access". Copy it (starts `re_`).
+
+   > Why full access: the site saves everyone who signs up for the discount
+   > as a Resend contact, so you can email them all later with Resend
+   > Broadcasts. A "sending access" key can send emails but can't save
+   > contacts. Your current key is sending-only, so sign-ups aren't reaching
+   > Resend yet. (They're never lost, though — every sign-up is also kept in
+   > Stripe, and `/admin` → **Download CSV** gives you the full list any time.)
 3. Go to **Domains** → **Add Domain** → enter `azadblack.co.uk`.
 4. Resend will show you several DNS records to add. Go to wherever you bought
    your domain, find its DNS settings, and add each record exactly as shown.
@@ -209,17 +217,20 @@ click **Redeploy** — changes only take effect on a new deployment.
 
 Do a real end-to-end run. It costs you only the Stripe fee on a real card.
 
-1. Open your live site on your phone.
-2. Add a product to the basket, go through checkout and **pay with your own
-   card**.
-3. Check that:
-   - [ ] You land on the thank-you page
-   - [ ] You receive the order confirmation email
+1. Open your live site on your phone, in a private/incognito tab.
+2. Wait for the discount pop-up, enter your email, scratch the card.
+   - [ ] You see your code and a countdown
+   - [ ] The discount email arrives
+3. Pick a pack, pre-order, and **pay with your own card**.
+   - [ ] The basket shows the 10% off before checkout
+   - [ ] Stripe's page shows the discount and the pre-order note by the pay button
+   - [ ] You land on the "Pre-order confirmed" page
+   - [ ] You receive the pre-order confirmation email
    - [ ] You receive the new-order alert email
-   - [ ] The order shows in Stripe → **Payments**
-   - [ ] The order shows at `your-domain.co.uk/admin`
-4. On the admin page, click **Mark as out for delivery** and check the
-   "out for delivery" email arrives.
+   - [ ] The order shows at `your-domain.co.uk/admin`, and you appear in the
+         sign-up count
+4. On the admin page, try **Email the ship date** and then **Mark as out for
+   delivery**, and check both emails arrive.
 5. Refund yourself: Stripe → **Payments** → click the payment → **Refund**.
 
 If any email doesn't arrive, it's almost always the Resend domain not being
@@ -227,12 +238,37 @@ verified yet (Step 5).
 
 ---
 
-## Running the shop day to day
+## Running the pre-order day to day
 
-**When an order comes in** you'll get an email with what was bought and where
-to send it. Post the parcel, then go to `your-domain.co.uk/admin`, sign in with
-your `ADMIN_PASSWORD`, find the order, and click **Mark as out for delivery**.
-The customer is emailed automatically. Clicking twice won't spam them.
+The site sells the first drop as a **pre-order**: people pay now, and every
+order ships together once your stock arrives.
+
+**When a pre-order comes in** you'll get an email with what was bought and
+where to send it. Nothing to do yet.
+
+**When the supplier confirms when stock will land:**
+
+1. In `src/lib/site-config.js`, set `shipEstimate` to how it should read, e.g.
+   `"in early December 2026"`. That updates the whole site for new customers.
+2. On `/admin`, use **Tell customers the ship date** to email everyone who's
+   already ordered. It's safe to run again — nobody is told the same date
+   twice.
+
+**When stock arrives**, post each parcel, then on `/admin` click **Mark as out
+for delivery** (paste in the tracking number/link if you have one). The
+customer is emailed automatically.
+
+**If someone wants to cancel** before it ships, refund them in full: Stripe →
+Payments → the payment → Refund. The site promises this, and UK law expects it
+when no delivery date was agreed.
+
+> ⚠️ **Don't sit on pre-orders without a date for long.** With no agreed date,
+> UK law expects delivery within 30 days of ordering. Give people a date as
+> soon as you have one.
+
+**Your mailing list**: `/admin` → **Download CSV** at any time. To email
+everyone, import it into Resend (Audience → Contacts) and send a Broadcast —
+Broadcasts add the unsubscribe link for you, which the law requires.
 
 **To change prices or products**, edit `src/lib/products.js` on GitHub (you can
 edit files directly on the GitHub website). Prices are in pence — `1399` is
@@ -245,20 +281,20 @@ up under Stripe → Settings → Payouts.
 
 ## Things still worth doing
 
-- [ ] **Verify the Resend domain** (Step 5) — customer emails don't work
-      without it.
-- [ ] **Add real customer reviews.** The reviews section was removed because
-      there weren't any yet. Publishing made-up reviews is illegal advertising
-      in the UK, so only add genuine ones.
-- [ ] **Write proper legal pages** — returns/refunds policy, privacy policy and
-      terms. UK consumer law requires these for online selling, and Stripe
-      expects them too.
-- [ ] **Check the product descriptions are accurate** — avoid medical claims
-      like "cures" or "guarantees growth", which aren't allowed.
-- [ ] **Decide on shipping.** The site currently ships to the UK only, charges
-      £3.99, and is free over £35. Change those in `src/lib/site-config.js`.
-- [ ] **Set the social links** — Instagram and TikTok in
-      `src/lib/site-config.js` currently point at the generic homepages.
+- [ ] **Verify the Resend domain** (Step 5) — customer emails, including the
+      discount email, don't reach anyone else without it.
+- [ ] **Switch to a full-access Resend key** (Step 5) so sign-ups land in
+      Resend as contacts.
+- [ ] **Fill in your trader details** in `src/lib/site-config.js` — legal name
+      and business address. The legal pages show a warning until you do.
+- [ ] **Work through [COMPLIANCE.md](./COMPLIANCE.md)** — the cosmetics safety
+      report, Responsible Person, SCPN registration and label. These block
+      selling, pre-orders included.
+- [ ] **Get the ingredients list** from the supplier and paste it into
+      `ingredientsInci` in `src/lib/products.js`.
+- [ ] **Set the ship date** (`preorder.shipEstimate`) as soon as you know it.
+- [ ] **Add real reviews once you have them.** There are none on the site,
+      deliberately — invented reviews are illegal advertising in the UK.
 
 ---
 

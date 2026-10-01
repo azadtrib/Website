@@ -22,11 +22,11 @@ export default function Footer() {
         </div>
 
         <div className="text-sm">
-          <p className="font-semibold mb-3">Shop</p>
+          <p className="font-semibold mb-3">The first drop</p>
           <ul className="space-y-2 text-ink/70">
             <li>
-              <Link href="/#shop" className="hover:text-teal transition-colors">
-                All products
+              <Link href="/beard-oil" className="hover:text-teal transition-colors">
+                Beard oil
               </Link>
             </li>
             <li>

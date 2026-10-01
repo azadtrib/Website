@@ -2,50 +2,20 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { siteConfig } from "@/lib/site-config";
-import { formatPrice } from "@/lib/format";
-import { BOTTLE_SIZE } from "@/lib/products";
+import { faqs } from "@/lib/faqs";
 import { faqSchema, jsonLd } from "@/lib/seo";
 
 const linkClass = "text-teal hover:underline";
-
-// Plain-text answers so the same words feed both the page and the FAQPage
-// structured data; the optional link is appended on the page only.
-const faqs = [
-  {
-    q: "How long does one bottle last?",
-    text: `With a few drops a day, most guys get about 2 months out of a ${BOTTLE_SIZE} bottle.`,
-  },
-  {
-    q: "Will it clog my pores or cause breakouts?",
-    // "Non-comedogenic" was here, but nothing from the supplier supports it.
-    // "All skin types" is what their listing actually states.
-    text: "It's a lightweight oil made for all skin types, and it absorbs quickly rather than sitting on the skin. If your skin is sensitive or breakout-prone, patch test on a small area first.",
-  },
-  {
-    q: "What's your return policy?",
-    text: `If you're not happy, reach out within ${siteConfig.guaranteeDays} days of delivery for a full refund — even if you've opened it.`,
-    link: { href: "/returns", label: "Full returns policy" },
-  },
-  {
-    q: "How long does delivery take, and what does it cost?",
-    text:
-      `We dispatch within ${siteConfig.dispatchDays}, and delivery is usually ${siteConfig.deliveryEstimate}. ` +
-      `It's ${formatPrice(siteConfig.flatShippingCents)}, or free over ${formatPrice(siteConfig.freeShippingThresholdCents)}.`,
-    link: { href: "/shipping", label: "Delivery details" },
-  },
-];
 
 export default function FAQAccordion() {
   const [openIndex, setOpenIndex] = useState(null);
 
   return (
-    <section id="faq" className="py-16">
+    <section id="faq" className="py-16 sm:py-24">
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(faqSchema(faqs))} />
       <div className="mx-auto max-w-3xl px-5">
-        <h2 className="text-2xl font-bold text-center mb-10">
-          Frequently asked questions
-        </h2>
+        <p className="text-teal text-xs font-semibold uppercase tracking-widest">Questions</p>
+        <h2 className="text-3xl sm:text-4xl font-bold mt-3 mb-10">The obvious ones, answered.</h2>
         <div className="space-y-3">
           {faqs.map((faq, i) => {
             const isOpen = openIndex === i;

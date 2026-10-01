@@ -22,9 +22,10 @@ export const siteConfig = {
   // NEXT_PUBLIC_SITE_URL in the hosting environment to the live domain.
   url: resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),
   brandName: "AZAD BLACK",
-  tagline: "Azad Black - Your Daily Essential.",
-  description:
-    "Take better care of yourself. It starts with the little things.",
+  // The one problem the brand exists to solve — leads the homepage.
+  tagline: "Grooming shouldn't feel like another job.",
+  // The philosophy, in five words.
+  description: "Simple rituals. Better results. Less effort.",
   guaranteeDays: 30,
   supportEmail: "hello@azadblack.co.uk",
 
@@ -37,17 +38,41 @@ export const siteConfig = {
   currency: "gbp",
   freeShippingThresholdCents: 3500,
   flatShippingCents: 399,
-  // Business days. Search engines read these as numbers from the product
-  // structured data, and the page wording below is built from the same
-  // values, so the two can never disagree.
-  dispatch: { min: 1, max: 2 },
+  // PRE-ORDER. The first drop is sold before stock arrives. When the
+  // supplier confirms timing, set shipEstimate to how it should read after
+  // "Expected to ship", e.g. "in early December 2026" or "within 4–6 weeks of
+  // ordering", and every page, email and checkout note updates. While it's
+  // null they all say the date is still to be confirmed.
+  //
+  // UK law: with no agreed date, delivery is due within 30 days of the
+  // order, after which the customer can cancel. The site therefore offers a
+  // full refund any time before dispatch.
+  preorder: {
+    open: true,
+    shipEstimate: null,
+  },
+
+  // Business days from dispatch to the door. Search engines read these as
+  // numbers from the structured data; page wording is built from them too.
   transit: { min: 2, max: 4 },
   shipsTo: "United Kingdom",
   shipsToCode: "GB",
 
-  // What search results show. Kept separate from the on-page tagline so the
-  // brand copy can stay short while the title still says what's being sold.
-  seoTitle: "AZAD BLACK Beard Oil — Your Daily Essential",
+  // The email-capture offer, revealed by the scratch card. Each email gets
+  // its own single-use Stripe code that expires validHours after it's
+  // issued. Change the numbers here; the Stripe coupon is created to match
+  // on first use (a new couponId is needed if percentOff changes, because
+  // Stripe coupons can't be edited).
+  offer: {
+    percentOff: 10,
+    validHours: 24,
+    couponId: "first-drop-10",
+    codePrefix: "AZAD",
+  },
+
+  // What search results show. Kept separate from the on-page headline so it
+  // can name the product and the pre-order.
+  seoTitle: "AZAD BLACK Beard Oil — Pre-order the First Drop",
 
   // TRADER DETAILS — legally required on a UK selling site, and the legal
   // pages render these verbatim. Replace every "TODO" before launch.
@@ -68,8 +93,16 @@ export const siteConfig = {
   },
 };
 
-siteConfig.dispatchDays = `${siteConfig.dispatch.min}-${siteConfig.dispatch.max} business days`;
-siteConfig.deliveryEstimate = `${siteConfig.transit.min}-${siteConfig.transit.max} business days after dispatch`;
+siteConfig.transitText = `${siteConfig.transit.min}–${siteConfig.transit.max} business days`;
+
+// One sentence used everywhere the ship date comes up, so the product page,
+// basket, checkout, emails and FAQ always say the same thing.
+export function shipStatus() {
+  const estimate = siteConfig.preorder.shipEstimate;
+  return estimate
+    ? `Expected to ship ${estimate}.`
+    : "Ship date to be confirmed — we'll email you as soon as it's set.";
+}
 
 // True once the trader details above have actually been filled in.
 export function hasTraderDetails() {

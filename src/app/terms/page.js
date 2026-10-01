@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig, shipStatus } from "@/lib/site-config";
 import LegalLayout, { LegalSection } from "@/components/LegalLayout";
 
 export const metadata = {
@@ -26,6 +26,27 @@ export default function TermsPage() {
           We try to keep prices and product details accurate; if an obvious
           pricing error means we can&apos;t honour an order, we&apos;ll contact
           you before charging you and you can confirm or cancel.
+        </p>
+      </LegalSection>
+
+      <LegalSection heading="Pre-orders">
+        <p>
+          The first drop is sold as a pre-order. You pay when you order, and we ship once stock
+          arrives. {shipStatus()} We&apos;ll email you when the date is confirmed and again when
+          your order is dispatched.
+        </p>
+        <p>
+          You can cancel a pre-order any time before it ships for a full refund, including
+          delivery. If we can&apos;t fulfil it, we&apos;ll tell you and refund you in full.
+        </p>
+      </LegalSection>
+
+      <LegalSection heading="Discount codes">
+        <p>
+          The first-drop discount ({siteConfig.offer.percentOff}% off) is one per email address,
+          single use, and expires {siteConfig.offer.validHours} hours after it&apos;s issued. It
+          applies to products, not delivery, can&apos;t be combined with another code, and has no
+          cash value.
         </p>
       </LegalSection>
 

@@ -98,11 +98,10 @@ cosmetic can say without evidence. The site deliberately uses none of it.
 This applies to Instagram and TikTok posts too — the ASA treats social media
 posts as advertising.
 
-Still on the site and worth checking:
-
-- the homepage line **"Small batch · Cruelty-free"**. "Small batch" is hard to
-  defend for a factory-made private-label oil, and "cruelty-free" needs the
-  supplier's written confirmation. Reword it if you can't back both.
+The homepage used to say "Small batch · Cruelty-free". Both were removed in the
+pre-order restructure: "small batch" is hard to defend for a factory-made
+private-label oil, and "cruelty-free" needs the supplier's written
+confirmation. Only add "cruelty-free" back once you have it in writing.
 
 The FAQ used to call the oil "non-comedogenic". Nothing from the supplier
 supports that, so it now says "made for all skin types", which is what their
@@ -136,6 +135,32 @@ Register as self-employed with HMRC if you're trading as a sole trader.
 
 You only need to register once your turnover passes the threshold, but keep an
 eye on it. Prices on the site are presented as VAT-inclusive.
+
+### Pre-orders
+
+Taking money before you have stock is legal, but the rules are strict:
+
+- If no delivery date is agreed, delivery is due **within 30 days** of the
+  order. After that the customer can cancel and must be refunded.
+- The site tells every customer the ship date isn't confirmed yet and that
+  they can cancel any time before dispatch. Honour that promptly.
+- Set `preorder.shipEstimate` and email existing customers (from `/admin`) as
+  soon as you have a real date. Under-promise.
+
+Also note: the cosmetics requirements in section 1 apply when the product is
+*placed on the market*. Get them sorted before stock ships, ideally before you
+take pre-orders, so you're never holding customers' money for a product you
+can't legally send.
+
+### Marketing emails
+
+The discount pop-up collects emails for marketing, which UK law (PECR) only
+allows with consent. The sign-up form says what people are signing up for, and
+there's no pre-ticked box. When you email the list:
+
+- always include an unsubscribe link (Resend Broadcasts add one), and honour it
+- only email people who signed up — never add customers' order emails to the
+  marketing list without their agreement
 
 ### Insurance
 

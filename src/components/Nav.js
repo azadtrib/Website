@@ -6,8 +6,8 @@ import { siteConfig } from "@/lib/site-config";
 import { useCart } from "@/lib/cart-context";
 
 const links = [
-  { href: "/#shop", label: "Shop" },
-  { href: "/#story", label: "Our Story" },
+  { href: "/beard-oil", label: "Beard oil" },
+  { href: "/#story", label: "Our story" },
   { href: "/#faq", label: "FAQ" },
 ];
 

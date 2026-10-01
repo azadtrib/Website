@@ -54,6 +54,23 @@ export default function PrivacyPage() {
         </p>
       </LegalSection>
 
+      <LegalSection heading="If you sign up for the discount">
+        <p>
+          When you enter your email to unlock the first-drop discount, we use it
+          to send you your code, and then occasional updates about{" "}
+          {siteConfig.brandName} as we build it. We only do that because you
+          asked to sign up, and you can stop it at any time — use the
+          unsubscribe link in any update, or reply to one asking us to remove
+          you.
+        </p>
+        <p>
+          Your code is stored with Stripe alongside your email address, so that
+          it can be applied at checkout. A cookie on your device remembers your
+          code for 24 hours so it&apos;s applied automatically; it holds no
+          personal details.
+        </p>
+      </LegalSection>
+
       <LegalSection heading="Who processes it for us">
         <p>
           We use a small number of companies to actually run the shop. Each of
@@ -61,12 +78,13 @@ export default function PrivacyPage() {
         </p>
         <ul className="list-disc pl-5 space-y-1">
           <li>
-            <strong className="text-ink">Stripe</strong> — takes the payment and
-            holds the order record.
+            <strong className="text-ink">Stripe</strong> — takes the payment,
+            holds the order record, and stores discount codes.
           </li>
           <li>
-            <strong className="text-ink">Resend</strong> — sends your order
-            confirmation and delivery emails.
+            <strong className="text-ink">Resend</strong> — sends your order,
+            discount and delivery emails, and holds the mailing list if you
+            signed up.
           </li>
           <li>
             <strong className="text-ink">Vercel</strong> — hosts the website,

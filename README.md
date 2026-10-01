@@ -44,48 +44,80 @@ deliberately **never committed to git** — it holds secrets.
 
 ## How the shop works
 
-### Changing products or prices
+AZAD BLACK is set up as a new brand taking **pre-orders** for its first
+product, a beard oil. The site's job is to turn visitors into an email list and
+pre-orders. Everything below can be changed without touching page layouts.
 
-Everything about the products lives in one file: **`src/lib/products.js`**.
+### The settings you'll actually change
 
-Prices are written in **pence**, not pounds — `1399` means £13.99. Each product
-has an optional `compareAtCents` (the crossed-out "was" price) and
-`discountPercent` (the "Limited discount" badge).
+**`src/lib/site-config.js`**:
 
-Product photos live in `public/products/`. Reference them by filename, e.g.
-`image: "/products/qty-1.png"`.
+| Setting | What it does |
+| --- | --- |
+| `preorder.shipEstimate` | `null` = "ship date to be confirmed" everywhere. Set it to e.g. `"in early December 2026"` and every page, the basket, checkout and emails say "Expected to ship in early December 2026." |
+| `offer.percentOff` / `offer.validHours` | The pop-up discount (10%, valid 24 hours). If you change `percentOff`, also change `couponId` — Stripe coupons can't be edited, so a new one is created. |
+| `tagline`, `description` | The homepage headline and the philosophy line. |
+| `flatShippingCents`, `freeShippingThresholdCents` | Delivery price and free-delivery threshold. |
+| `instagram`, `tiktok`, `supportEmail` | Contact details. Empty social links are hidden. |
 
-### Changing text, prices of shipping, or contact details
+**`src/lib/products.js`**: the bottle size (`BOTTLE_SIZE`), the three packs and
+their prices (in **pence** — `1399` is £13.99), what the oil does, and the
+ingredients. The crossed-out prices are worked out automatically from the
+single-bottle price, so they're always genuine.
 
-**`src/lib/site-config.js`** holds the brand name, tagline, support email,
-social links, shipping cost and the free-shipping threshold.
+**`src/lib/faqs.js`**: the FAQ. The same answers also feed Google and
+`/llms.txt`.
 
-Page text lives in the components: the homepage sections are in
-`src/app/page.js`, and the FAQ answers are in `src/components/FAQAccordion.js`.
+### Pages
 
-### What happens when someone orders
+- `/` — problem → idea → beard oil → ritual → why AZAD BLACK → pre-order → FAQ → join the list
+- `/beard-oil` — the full product page with the pack picker
+- `/shipping`, `/returns`, `/terms`, `/privacy` — the legal pages
+- `/admin` — orders, the ship-date email, and the sign-up export
+- `/llms.txt` — a plain summary of the shop for AI assistants
 
-1. Customer adds items to the basket and clicks **Checkout**.
-2. They are sent to Stripe's secure payment page. Card details never touch
-   this site.
-3. When payment succeeds, Stripe notifies `/api/webhooks/stripe`, which:
-   - emails the customer an order confirmation, and
-   - emails **you** the order details and delivery address.
-4. The customer lands on a thank-you page that confirms the payment really
-   went through, and tells them they'll be emailed when it's out for delivery.
-5. When you post the parcel, you open `/admin`, find the order, and click
-   **Mark as out for delivery**. That emails the customer.
+### The discount pop-up
 
-There is no separate database — Stripe stores the orders, and the site reads
-them back. That means one less thing to pay for or maintain.
+Shows once, 6 seconds after someone lands (or a third of the way down the
+page), only on the homepage and product page. Close it and it stays away for a
+week. On a phone it slides up from the bottom rather than covering the page.
+
+Entering an email gives that person their **own** Stripe code: 10% off, single
+use, expiring 24 hours later. Stripe enforces both limits. The same email
+always gets the same code, so signing up again can't restart the clock. The
+code is applied automatically at checkout on that device, emailed to them,
+and can be typed in at checkout on any other device.
+
+### What happens when someone pre-orders
+
+1. They pick a pack and click **Pre-order**, then **Pre-order securely** in the
+   basket. Their discount is applied if they unlocked one.
+2. They pay on Stripe's secure page, which shows the pre-order terms next to
+   the pay button. Card details never touch this site.
+3. Stripe notifies `/api/webhooks/stripe`, which emails the customer a
+   pre-order confirmation and emails **you** the order and delivery address.
+4. When you know the ship date: update `preorder.shipEstimate`, then on
+   `/admin` use **Email the ship date** to tell everyone who's waiting.
+5. When stock arrives and you post each parcel, click **Mark as out for
+   delivery** on `/admin` (add a tracking number if you have one).
+
+Customers can cancel any time before their order ships — refund them in the
+Stripe dashboard (Payments → the payment → Refund).
+
+There is no separate database. Stripe holds the orders and the sign-ups, and
+the site reads them back.
 
 ### The admin page
 
 Go to `https://your-domain.co.uk/admin` and enter your `ADMIN_PASSWORD`.
 
-It lists paid orders with the items, total, customer email and shipping
-address, plus the button to mark an order as out for delivery. Clicking it
-twice won't send the customer a duplicate email.
+- **Email sign-ups** — how many people have joined, and a **Download CSV** of
+  every email address. This is your mailing list, and it works even if Resend
+  isn't set up to store contacts.
+- **Tell customers the ship date** — emails every unshipped pre-order. Safe to
+  re-run: nobody gets the same date twice.
+- **Orders** — each paid order with its items, address and email, and the
+  **Mark as out for delivery** button. Clicking twice won't double-email.
 
 ## Sending order emails
 

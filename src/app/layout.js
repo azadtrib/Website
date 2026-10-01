@@ -4,6 +4,7 @@ import "./globals.css";
 import { CartProvider } from "@/lib/cart-context";
 import Nav from "@/components/Nav";
 import CartDrawer from "@/components/CartDrawer";
+import EmailOfferModal from "@/components/EmailOfferModal";
 import Footer from "@/components/Footer";
 import { siteConfig } from "@/lib/site-config";
 import { siteDescription } from "@/lib/seo";
@@ -67,6 +68,7 @@ export default function RootLayout({ children }) {
           <main className="flex-1">{children}</main>
           <Footer />
           <CartDrawer />
+          <EmailOfferModal />
         </CartProvider>
         <Analytics />
       </body>

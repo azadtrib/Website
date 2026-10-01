@@ -13,10 +13,11 @@ const heroMeta = await sharp(hero).metadata();
 const text = Buffer.from(`
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
   <g font-family="Helvetica, Arial, sans-serif" fill="#efe8e0">
-    <text x="72" y="200" font-size="26" letter-spacing="8" fill="#e2a582" font-weight="700">BEARD OIL · 30ML</text>
-    <text x="72" y="290" font-size="66" font-weight="700">AZAD BLACK</text>
-    <text x="72" y="360" font-size="34" fill-opacity="0.75">Your daily essential.</text>
-    <text x="72" y="410" font-size="34" fill-opacity="0.75">Look good. Feel good.</text>
+    <text x="64" y="170" font-size="22" letter-spacing="6" fill="#e2a582" font-weight="700">PRE-ORDERS OPEN</text>
+    <text x="64" y="250" font-size="52" font-weight="700">Grooming</text>
+    <text x="64" y="315" font-size="52" font-weight="700">shouldn't feel like</text>
+    <text x="64" y="380" font-size="52" font-weight="700">another job.</text>
+    <text x="64" y="450" font-size="26" fill-opacity="0.7">AZAD BLACK. Starting with beard oil.</text>
   </g>
 </svg>`);
 

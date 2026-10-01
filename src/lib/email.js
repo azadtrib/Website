@@ -1,5 +1,5 @@
 import { Resend } from "resend";
-import { siteConfig } from "./site-config";
+import { siteConfig, shipStatus } from "./site-config";
 import { formatPrice } from "./format";
 
 // Until a domain is verified in Resend, EMAIL_FROM falls back to Resend's
@@ -80,12 +80,19 @@ export async function sendOrderConfirmation({ to, orderNumber, items, totalCents
       to,
       subject: `Order confirmed — ${orderNumber}`,
       html: layout(`
-        <p style="margin:0 0 16px;font-size:18px;font-weight:bold;">Thanks for your order.</p>
+        <p style="margin:0 0 16px;font-size:18px;font-weight:bold;">Your pre-order is confirmed.</p>
+        <p style="margin:0 0 16px;color:rgba(239,232,224,0.7);line-height:1.6;">
+          Thanks for backing the first ${escapeHtml(siteConfig.brandName)} drop. You're one of the first
+          people to get it.
+        </p>
         <p style="margin:0 0 24px;color:rgba(239,232,224,0.7);line-height:1.6;">
-          We've got your order and we're getting it ready. <strong style="color:#e2a582;">We'll email you
-          again as soon as it's out for delivery.</strong>
+          <strong style="color:#e2a582;">${escapeHtml(shipStatus())}</strong> We'll email you again when
+          it's out for delivery.
         </p>
         ${itemsTable(items, totalCents)}
+        <p style="margin:0 0 16px;font-size:13px;color:rgba(239,232,224,0.6);line-height:1.6;">
+          Changed your mind? Reply to this email any time before it ships and we'll refund you in full.
+        </p>
         <p style="margin:0;font-size:13px;color:rgba(239,232,224,0.5);">Order reference: ${escapeHtml(orderNumber)}</p>
       `),
     },
@@ -142,17 +149,93 @@ export async function sendOwnerNewOrder({ orderNumber, items, totalCents, custom
     {
       from: FROM,
       to: OWNER_EMAIL,
-      subject: `New order ${orderNumber} — ${formatPrice(totalCents)}`,
+      subject: `New pre-order ${orderNumber} — ${formatPrice(totalCents)}`,
       html: layout(`
-        <p style="margin:0 0 16px;font-size:18px;font-weight:bold;">New order received.</p>
+        <p style="margin:0 0 16px;font-size:18px;font-weight:bold;">New pre-order received.</p>
         ${itemsTable(items, totalCents)}
         <p style="margin:0 0 6px;color:rgba(239,232,224,0.7);"><strong>Ship to:</strong> ${escapeHtml(address)}</p>
         <p style="margin:0 0 6px;color:rgba(239,232,224,0.7);"><strong>Customer:</strong> ${escapeHtml(customerEmail || "unknown")}</p>
         <p style="margin:16px 0 0;font-size:13px;color:rgba(239,232,224,0.5);">
-          Post the parcel, then mark it as out for delivery at ${escapeHtml(siteConfig.url)}/admin
+          When stock arrives, post the parcel and mark it as out for delivery at ${escapeHtml(siteConfig.url)}/admin
         </p>
       `),
     },
     sendOptions(idempotencyKey)
   );
+}
+
+const LONDON_TIME = new Intl.DateTimeFormat("en-GB", {
+  timeZone: "Europe/London",
+  weekday: "short",
+  day: "numeric",
+  month: "short",
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
+export async function sendOfferEmail({ to, code, percentOff, expiresAt }) {
+  const resend = getResend();
+  if (!resend || !to) return { skipped: true };
+
+  return resend.emails.send(
+    {
+      from: FROM,
+      to,
+      subject: `Your ${percentOff}% off the first ${siteConfig.brandName} drop`,
+      html: layout(`
+        <p style="margin:0 0 16px;font-size:18px;font-weight:bold;">Your discount is unlocked.</p>
+        <p style="margin:0 0 20px;color:rgba(239,232,224,0.7);line-height:1.6;">
+          ${percentOff}% off when you pre-order the first ${escapeHtml(siteConfig.brandName)} drop.
+        </p>
+        <p style="margin:0 0 8px;font-size:13px;color:rgba(239,232,224,0.5);">Your code</p>
+        <p style="margin:0 0 20px;font-size:24px;font-weight:bold;letter-spacing:2px;color:#e2a582;">${escapeHtml(code)}</p>
+        <p style="margin:0 0 24px;color:rgba(239,232,224,0.7);line-height:1.6;">
+          It's single use and valid until <strong style="color:#efe8e0;">${escapeHtml(LONDON_TIME.format(expiresAt))}</strong>
+          (UK time). On the device you signed up on it's applied automatically at checkout;
+          anywhere else, enter the code at checkout.
+        </p>
+        <a href="${escapeHtml(siteConfig.url)}/beard-oil" style="display:inline-block;background:#efe8e0;color:#16130f;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:bold;">Pre-order the first drop</a>
+        <p style="margin:28px 0 0;font-size:12px;color:rgba(239,232,224,0.45);line-height:1.6;">
+          You're getting this because you signed up at ${escapeHtml(siteConfig.url)}. We'll send the
+          occasional update as we build the brand — reply "unsubscribe" and we'll take you off the list.
+        </p>
+      `),
+    },
+    sendOptions(`offer/${code}`)
+  );
+}
+
+export async function sendShipDateEmail({ to, orderNumber, shipDate, idempotencyKey }) {
+  const resend = getResend();
+  if (!resend || !to) return { skipped: true };
+
+  return resend.emails.send(
+    {
+      from: FROM,
+      to,
+      subject: `Your pre-order has a ship date — ${orderNumber}`,
+      html: layout(`
+        <p style="margin:0 0 16px;font-size:18px;font-weight:bold;">We've got a ship date.</p>
+        <p style="margin:0 0 24px;color:rgba(239,232,224,0.7);line-height:1.6;">
+          Your ${escapeHtml(siteConfig.brandName)} pre-order is expected to ship
+          <strong style="color:#e2a582;">${escapeHtml(shipDate)}</strong>. We'll email you again the moment
+          it's out for delivery.
+        </p>
+        <p style="margin:0 0 16px;font-size:13px;color:rgba(239,232,224,0.6);line-height:1.6;">
+          Not going to work for you? Reply before it ships and we'll refund you in full.
+        </p>
+        <p style="margin:0;font-size:13px;color:rgba(239,232,224,0.5);">Order reference: ${escapeHtml(orderNumber)}</p>
+      `),
+    },
+    sendOptions(idempotencyKey)
+  );
+}
+
+// Saves a sign-up as a Resend contact, so the owner can email the list later
+// with Resend Broadcasts (which handle unsubscribes). An address that's
+// already a contact is not an error worth surfacing.
+export async function addToAudience(email) {
+  const resend = getResend();
+  if (!resend) return { skipped: true };
+  return resend.contacts.create({ email, unsubscribed: false });
 }
