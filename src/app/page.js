@@ -4,10 +4,27 @@ import TrustBadges from "@/components/TrustBadges";
 import ProductCard from "@/components/ProductCard";
 import FAQAccordion from "@/components/FAQAccordion";
 import { products } from "@/lib/products";
+import { siteConfig } from "@/lib/site-config";
 
 export default function Home() {
+  // Ties the brand to its social profiles so search engines treat them as
+  // the same entity.
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: siteConfig.brandName,
+    url: siteConfig.url,
+    logo: `${siteConfig.url}/icon.svg`,
+    email: siteConfig.supportEmail,
+    sameAs: [siteConfig.instagram, siteConfig.tiktok].filter(Boolean),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
       <Hero />
 
       <section id="story" className="bg-navy py-16 border-y border-ink/5">

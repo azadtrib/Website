@@ -4,6 +4,8 @@ import { sendOutForDelivery } from "./email";
 // Stripe is the source of truth for orders — there is no separate database.
 // Delivery state lives in the PaymentIntent's metadata.
 const DELIVERY_FLAG = "out_for_delivery_at";
+const TRACKING_NUMBER = "tracking_number";
+const TRACKING_URL = "tracking_url";
 
 export function orderNumberFromSession(sessionId) {
   return `AB-${sessionId.slice(-8).toUpperCase()}`;
@@ -38,11 +40,31 @@ export async function listRecentOrders(limit = 50) {
           : null,
         outForDeliveryAt:
           session.payment_intent?.metadata?.[DELIVERY_FLAG] || null,
+        trackingNumber: session.payment_intent?.metadata?.[TRACKING_NUMBER] || null,
+        trackingUrl: session.payment_intent?.metadata?.[TRACKING_URL] || null,
       };
     });
 }
 
-export async function markOutForDelivery(sessionId) {
+// The tracking link ends up as an <a href> in a customer email, so only a
+// plain https URL is accepted — anything else (javascript:, data:, a typo)
+// is refused rather than mailed out.
+export function parseTrackingUrl(value) {
+  const trimmed = (value || "").trim();
+  if (!trimmed) return null;
+  let url;
+  try {
+    url = new URL(trimmed);
+  } catch {
+    throw new Error("That tracking link isn't a valid web address.");
+  }
+  if (url.protocol !== "https:") {
+    throw new Error("The tracking link must start with https://");
+  }
+  return url.toString();
+}
+
+export async function markOutForDelivery(sessionId, { trackingNumber, trackingUrl } = {}) {
   const stripe = getStripeClient();
   const session = await stripe.checkout.sessions.retrieve(sessionId);
 
@@ -61,14 +83,29 @@ export async function markOutForDelivery(sessionId) {
     return { alreadySent: true };
   }
 
-  await sendOutForDelivery({
+  const cleanTrackingNumber = (trackingNumber || "").trim().slice(0, 64) || null;
+
+  const result = await sendOutForDelivery({
     to: session.customer_details?.email,
     orderNumber: orderNumberFromSession(session.id),
+    trackingNumber: cleanTrackingNumber,
+    trackingUrl,
+    idempotencyKey: `out-for-delivery/${session.id}`,
   });
 
-  // Recorded only after the email goes out, so a send failure can be retried.
+  // Resend reports failures in the return value rather than throwing. Bail
+  // before recording the flag, so the button stays available to retry.
+  if (result?.error) {
+    throw new Error(`The email didn't send: ${result.error.message || "unknown error"}`);
+  }
+
   await stripe.paymentIntents.update(paymentIntentId, {
-    metadata: { ...paymentIntent.metadata, [DELIVERY_FLAG]: new Date().toISOString() },
+    metadata: {
+      ...paymentIntent.metadata,
+      [DELIVERY_FLAG]: new Date().toISOString(),
+      ...(cleanTrackingNumber && { [TRACKING_NUMBER]: cleanTrackingNumber }),
+      ...(trackingUrl && { [TRACKING_URL]: trackingUrl }),
+    },
   });
 
   return { alreadySent: false };

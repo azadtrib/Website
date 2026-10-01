@@ -44,8 +44,13 @@ export default function PrivacyPage() {
           stays on your device until you check out or clear it.
         </p>
         <p>
-          We do not run advertising or analytics trackers on this site, and we
-          do not sell or share your information with anyone for marketing.
+          We count visits using Vercel Web Analytics, which records which pages
+          are viewed in aggregate. It sets no cookies and doesn&apos;t identify
+          you or follow you across other sites.
+        </p>
+        <p>
+          We do not run advertising trackers on this site, and we do not sell or
+          share your information with anyone for marketing.
         </p>
       </LegalSection>
 
@@ -64,9 +69,9 @@ export default function PrivacyPage() {
             confirmation and delivery emails.
           </li>
           <li>
-            <strong className="text-ink">Vercel</strong> — hosts the website and
-            keeps standard server logs, which include visitors&apos; IP
-            addresses.
+            <strong className="text-ink">Vercel</strong> — hosts the website,
+            keeps standard server logs (which include visitors&apos; IP
+            addresses), and provides the cookieless visit counts above.
           </li>
         </ul>
       </LegalSection>

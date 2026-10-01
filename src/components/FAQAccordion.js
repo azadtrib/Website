@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
+import { formatPrice } from "@/lib/format";
+
+const linkClass = "text-teal hover:underline";
 
 const faqs = [
   {
@@ -14,11 +18,29 @@ const faqs = [
   },
   {
     q: "What's your return policy?",
-    a: `If you're not happy, reach out within ${siteConfig.guaranteeDays} days of delivery for a full refund.`,
+    a: (
+      <>
+        If you&apos;re not happy, reach out within {siteConfig.guaranteeDays} days of
+        delivery for a full refund — even if you&apos;ve opened it.{" "}
+        <Link href="/returns" className={linkClass}>
+          Full returns policy
+        </Link>
+      </>
+    ),
   },
   {
-    q: "How long does shipping take?",
-    a: "Orders ship within 1-2 business days. Delivery time depends on your location.",
+    q: "How long does delivery take, and what does it cost?",
+    a: (
+      <>
+        We dispatch within {siteConfig.dispatchDays}, and delivery is usually{" "}
+        {siteConfig.deliveryEstimate}. It&apos;s{" "}
+        {formatPrice(siteConfig.flatShippingCents)}, or free over{" "}
+        {formatPrice(siteConfig.freeShippingThresholdCents)}.{" "}
+        <Link href="/shipping" className={linkClass}>
+          Delivery details
+        </Link>
+      </>
+    ),
   },
 ];
 
@@ -41,10 +63,13 @@ export default function FAQAccordion() {
               >
                 <button
                   className="w-full flex items-center justify-between px-5 py-4 text-left font-medium"
+                  aria-expanded={isOpen}
+                  aria-controls={`faq-panel-${i}`}
                   onClick={() => setOpenIndex(isOpen ? null : i)}
                 >
                   {faq.q}
                   <span
+                    aria-hidden="true"
                     className={`text-teal text-xl leading-none transition-transform duration-300 ${
                       isOpen ? "rotate-45" : "rotate-0"
                     }`}
@@ -53,6 +78,10 @@ export default function FAQAccordion() {
                   </span>
                 </button>
                 <div
+                  id={`faq-panel-${i}`}
+                  // Collapsed answers are only visually hidden, so without
+                  // inert their links would still be reachable by Tab.
+                  inert={!isOpen}
                   className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
                     isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                   }`}

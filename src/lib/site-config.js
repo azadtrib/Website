@@ -30,9 +30,9 @@ export const siteConfig = {
 
   // Social links are optional — the footer hides any that are left empty.
   // A link to instagram.com rather than an actual profile reads as fake, so
-  // leave these blank until the real accounts exist.
-  instagram: "",
-  tiktok: "",
+  // only ever put a real profile URL here.
+  instagram: "https://www.instagram.com/azadblack_/",
+  tiktok: "https://www.tiktok.com/@azadblack_",
 
   currency: "gbp",
   freeShippingThresholdCents: 3500,

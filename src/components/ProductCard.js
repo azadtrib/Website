@@ -57,7 +57,11 @@ export default function ProductCard({ product }) {
         <div className="mt-3 flex items-center justify-center gap-2">
           <span className="font-bold text-lg">{formatPrice(product.priceCents)}</span>
           {product.compareAtCents && (
-            <span className="text-ink/40 line-through text-sm">
+            <span
+              className="text-ink/40 line-through text-sm"
+              title="Price if bought as single bottles"
+            >
+              <span className="sr-only">Price as single bottles: </span>
               {formatPrice(product.compareAtCents)}
             </span>
           )}
@@ -70,9 +74,9 @@ export default function ProductCard({ product }) {
           </p>
         )}
 
-        {product.discountPercent && (
+        {product.savingCents > 0 && (
           <p className="text-teal text-xs font-semibold mt-2">
-            Save {product.discountPercent}%
+            Save {formatPrice(product.savingCents)} vs single bottles
           </p>
         )}
 
@@ -82,7 +86,7 @@ export default function ProductCard({ product }) {
             onClick={() => addItem(product)}
             className="w-full bg-ink text-cream rounded-full py-2.5 text-sm font-semibold transition-all duration-200 hover:opacity-85 active:scale-95"
           >
-            Add to cart
+            Add to basket
           </button>
         </div>
       </div>

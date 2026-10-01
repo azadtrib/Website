@@ -115,10 +115,8 @@ their skin. Ask a broker for cosmetics product liability.
 
 ## 3. Credibility — cheap and worth doing
 
-- **Real social links.** `instagram` and `tiktok` in `site-config.js` are now
-  empty, and the footer hides empty ones. Previously they pointed at
-  `instagram.com` and `tiktok.com`, which is worse than having none — anyone
-  checking you're real found nothing. Put the actual profile URLs in.
+- **Real social links.** Done — the footer links to @azadblack_ on Instagram and
+  TikTok. If either handle ever changes, update it in `site-config.js`.
 - **A real support inbox.** `hello@azadblack.co.uk` needs to exist and be
   monitored. It's also the address customers reply to on order emails.
 - **Real reviews only.** The reviews section was removed because there weren't
@@ -136,7 +134,7 @@ their skin. Ask a broker for cosmetics product liability.
 | Returns & refunds (`/returns`) | Written, covers both the 30-day guarantee and statutory rights |
 | Delivery & shipping (`/shipping`) | Written, pulls live costs from config |
 | Footer links to all of the above | Done |
-| Fake social links removed | Done |
+| Social links pointing at the real profiles | Done |
 | Ingredients section on product pages | Built, waiting on the real INCI list |
 | Trader details shown site-wide | Built, waiting on your business details |
 

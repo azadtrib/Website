@@ -5,6 +5,10 @@ import { cartStore } from "./cart-store";
 
 const CartContext = createContext(null);
 
+// Must match the per-line limit enforced by /api/checkout, or a customer can
+// build a basket that checkout then refuses.
+export const MAX_LINE_QUANTITY = 20;
+
 export function CartProvider({ children }) {
   const items = useSyncExternalStore(
     cartStore.subscribe,
@@ -18,7 +22,9 @@ export function CartProvider({ children }) {
       const existing = prev.find((i) => i.slug === product.slug);
       if (existing) {
         return prev.map((i) =>
-          i.slug === product.slug ? { ...i, quantity: i.quantity + quantity } : i
+          i.slug === product.slug
+            ? { ...i, quantity: Math.min(MAX_LINE_QUANTITY, i.quantity + quantity) }
+            : i
         );
       }
       return [
@@ -27,7 +33,7 @@ export function CartProvider({ children }) {
           slug: product.slug,
           name: product.name,
           priceCents: product.priceCents,
-          quantity,
+          quantity: Math.min(MAX_LINE_QUANTITY, quantity),
         },
       ];
     });
@@ -38,7 +44,9 @@ export function CartProvider({ children }) {
     cartStore.setItems((prev) =>
       quantity <= 0
         ? prev.filter((i) => i.slug !== slug)
-        : prev.map((i) => (i.slug === slug ? { ...i, quantity } : i))
+        : prev.map((i) =>
+            i.slug === slug ? { ...i, quantity: Math.min(MAX_LINE_QUANTITY, quantity) } : i
+          )
     );
   }, []);
 
@@ -47,6 +55,10 @@ export function CartProvider({ children }) {
   }, []);
 
   const clearCart = useCallback(() => cartStore.setItems([]), []);
+  // Stable identities: the drawer's focus handling depends on closeCart, and
+  // a new function every render would re-run it on each click.
+  const openCart = useCallback(() => setIsOpen(true), []);
+  const closeCart = useCallback(() => setIsOpen(false), []);
 
   const subtotalCents = useMemo(
     () => items.reduce((sum, i) => sum + i.priceCents * i.quantity, 0),
@@ -67,8 +79,8 @@ export function CartProvider({ children }) {
     subtotalCents,
     itemCount,
     isOpen,
-    openCart: () => setIsOpen(true),
-    closeCart: () => setIsOpen(false),
+    openCart,
+    closeCart,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

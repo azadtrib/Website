@@ -7,7 +7,7 @@ export default function Hero() {
     <section className="bg-peach">
       <div className="mx-auto max-w-6xl px-5 py-16 sm:py-24 grid sm:grid-cols-2 gap-10 items-center">
         <div className="animate-fade-in-up">
-          <p className="uppercase tracking-widest text-xs font-semibold text-navy/70 mb-4">
+          <p className="uppercase tracking-widest text-xs font-semibold text-teal mb-4">
             Small batch · Cruelty-free
           </p>
           <h1 className="text-4xl sm:text-5xl font-bold text-ink leading-tight">

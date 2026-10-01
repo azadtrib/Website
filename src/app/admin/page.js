@@ -90,10 +90,30 @@ export default async function AdminPage() {
 
             <div className="mt-4">
               {order.outForDeliveryAt ? (
-                <p className="text-teal text-sm font-semibold">
-                  Out for delivery — customer emailed{" "}
-                  {new Date(order.outForDeliveryAt).toLocaleDateString("en-GB")}
-                </p>
+                <div>
+                  <p className="text-teal text-sm font-semibold">
+                    Out for delivery — customer emailed{" "}
+                    {new Date(order.outForDeliveryAt).toLocaleDateString("en-GB")}
+                  </p>
+                  {(order.trackingNumber || order.trackingUrl) && (
+                    <p className="text-ink/60 text-sm mt-1">
+                      Tracking: {order.trackingNumber || "link only"}
+                      {order.trackingUrl && (
+                        <>
+                          {" · "}
+                          <a
+                            href={order.trackingUrl}
+                            className="text-teal hover:underline"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                            open
+                          </a>
+                        </>
+                      )}
+                    </p>
+                  )}
+                </div>
               ) : (
                 <MarkDeliveredButton sessionId={order.id} />
               )}

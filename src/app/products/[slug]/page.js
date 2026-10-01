@@ -5,6 +5,7 @@ import { formatPrice } from "@/lib/format";
 import { siteConfig } from "@/lib/site-config";
 import BottleIcon from "@/components/BottleIcon";
 import AddToCartForm from "@/components/AddToCartForm";
+import PurchaseReassurance from "@/components/PurchaseReassurance";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -84,11 +85,12 @@ export default async function ProductPage({ params }) {
         <div className="flex items-center gap-3 mt-4">
           <p className="text-2xl font-bold">{formatPrice(product.priceCents)}</p>
           {product.compareAtCents && (
-            <p className="text-ink/40 line-through">
+            <p className="text-ink/40 line-through" title="Price if bought as single bottles">
+              <span className="sr-only">Price as single bottles: </span>
               {formatPrice(product.compareAtCents)}
             </p>
           )}
-          {product.discountPercent && (
+          {product.discountPercent > 0 && (
             <span className="bg-teal/15 text-teal text-xs font-bold px-2.5 py-1 rounded-full">
               Save {product.discountPercent}%
             </span>
@@ -97,6 +99,8 @@ export default async function ProductPage({ params }) {
         {product.bottles > 0 && (
           <p className="text-ink/50 text-sm mt-1">
             {formatPrice(Math.round(product.priceCents / product.bottles))} per bottle
+            {product.savingCents > 0 &&
+              ` · ${formatPrice(product.savingCents)} less than ${product.bottles} single bottles`}
           </p>
         )}
         <p className="text-ink/70 mt-5">{product.description}</p>
@@ -108,6 +112,7 @@ export default async function ProductPage({ params }) {
           ))}
         </ul>
         <AddToCartForm product={product} />
+        <PurchaseReassurance className="mt-5" />
 
         <div className="mt-8 pt-6 border-t border-ink/10">
           <h2 className="text-sm font-semibold text-ink">Ingredients</h2>

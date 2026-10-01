@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart-context";
 import Nav from "@/components/Nav";
@@ -39,13 +40,13 @@ export const metadata = {
     description: siteConfig.description,
     url: siteConfig.url,
     locale: "en_GB",
-    images: [{ url: "/hero.png", width: 620, height: 633, alt: siteConfig.brandName }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: siteConfig.brandName }],
   },
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.brandName} — ${siteConfig.tagline}`,
     description: siteConfig.description,
-    images: ["/hero.png"],
+    images: ["/og.png"],
   },
   robots: {
     index: true,
@@ -66,6 +67,7 @@ export default function RootLayout({ children }) {
           <Footer />
           <CartDrawer />
         </CartProvider>
+        <Analytics />
       </body>
     </html>
   );

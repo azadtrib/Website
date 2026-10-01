@@ -1,18 +1,42 @@
 "use server";
 
+import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import {
+  clearFailedLogins,
   createAdminSession,
   destroyAdminSession,
+  FAILED_LOGIN_DELAY_MS,
   isAdminAuthenticated,
+  loginLockedFor,
+  recordFailedLogin,
   verifyPassword,
 } from "@/lib/admin-auth";
-import { markOutForDelivery } from "@/lib/orders";
+import { markOutForDelivery, parseTrackingUrl } from "@/lib/orders";
+
+async function clientId() {
+  const h = await headers();
+  return h.get("x-forwarded-for")?.split(",")[0].trim() || h.get("x-real-ip") || "unknown";
+}
 
 export async function login(_prevState, formData) {
+  const id = await clientId();
+
+  const lockedMs = loginLockedFor(id);
+  if (lockedMs > 0) {
+    const minutes = Math.ceil(lockedMs / 60000);
+    return {
+      error: `Too many failed attempts. Try again in ${minutes} minute${minutes === 1 ? "" : "s"}.`,
+    };
+  }
+
   if (!verifyPassword(formData.get("password"))) {
+    recordFailedLogin(id);
+    await new Promise((resolve) => setTimeout(resolve, FAILED_LOGIN_DELAY_MS));
     return { error: "Incorrect password." };
   }
+
+  clearFailedLogins(id);
   await createAdminSession();
   revalidatePath("/admin");
   return { error: null };
@@ -36,7 +60,12 @@ export async function markDelivered(_prevState, formData) {
   }
 
   try {
-    const { alreadySent } = await markOutForDelivery(sessionId);
+    const trackingUrl = parseTrackingUrl(formData.get("trackingUrl"));
+    const trackingNumber = String(formData.get("trackingNumber") || "");
+    const { alreadySent } = await markOutForDelivery(sessionId, {
+      trackingNumber,
+      trackingUrl,
+    });
     revalidatePath("/admin");
     return {
       error: null,
