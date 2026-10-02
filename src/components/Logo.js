@@ -9,8 +9,8 @@ export default function Logo({ className = "h-8", priority = false }) {
     <Image
       src="/brand/logo.png"
       alt={siteConfig.brandName}
-      width={326}
-      height={72}
+      width={800}
+      height={150}
       priority={priority}
       className={`w-auto ${className}`}
     />

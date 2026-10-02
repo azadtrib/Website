@@ -57,7 +57,7 @@ export const oilBenefits = [
 
 // The labelled bottle — the photo to use wherever the product itself is the
 // subject. The pack photos below are unlabelled.
-export const BOTTLE_IMAGE = { src: "/products/bottle.png", width: 181, height: 342 };
+export const BOTTLE_IMAGE = { src: "/products/bottle.png", width: 187, height: 353 };
 
 // The one place the bottle size is set — every label, title and supply
 // estimate on the site reads it from here.

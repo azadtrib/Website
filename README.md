@@ -73,9 +73,10 @@ single-bottle price, so they're always genuine.
 | `public/products/bottle.png` | The labelled bottle — hero, product section, product page |
 | `src/app/apple-icon.png` | The square logo, used when someone saves the site to their phone's home screen |
 
-The logo and bottle are currently cut from small screenshots. Swap in the
-full-resolution originals under the same file names; if the bottle photo's
-size changes, update `BOTTLE_IMAGE` in `src/lib/products.js` to match. After
+The logo is cut from the full-size logo artwork. The bottle photo is still a
+small (187px wide) copy, which is why it's shown at modest sizes — swap in a
+full-resolution version under the same file name and update `BOTTLE_IMAGE` in
+`src/lib/products.js` to its new width and height. After
 changing the logo, run `node scripts/og-image.mjs` to rebuild the share image.
 
 The look itself — the copper accent, the button, the section headings — is
