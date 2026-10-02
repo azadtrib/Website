@@ -1,7 +1,15 @@
 import { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { products, ingredientsInci, oilBenefits, productDetails, oilDescription, BOTTLE_SIZE } from "@/lib/products";
+import {
+  products,
+  ingredientsInci,
+  oilBenefits,
+  productDetails,
+  oilDescription,
+  BOTTLE_IMAGE,
+  BOTTLE_SIZE,
+} from "@/lib/products";
 import { formatPrice } from "@/lib/format";
 import { siteConfig } from "@/lib/site-config";
 import {
@@ -28,18 +36,17 @@ export const metadata = {
     title,
     description: productDescription(),
     url: PRODUCT_PATH,
-    images: [{ url: products[0].image, alt: `${siteConfig.brandName} beard oil` }],
+    images: [{ url: BOTTLE_IMAGE.src, alt: `${siteConfig.brandName} beard oil` }],
   },
   twitter: {
     card: "summary_large_image",
     title,
     description: productDescription(),
-    images: [products[0].image],
+    images: [BOTTLE_IMAGE.src],
   },
 };
 
-const sectionHeading = "text-2xl sm:text-3xl font-bold";
-const eyebrow = "text-teal text-xs font-semibold uppercase tracking-widest";
+const sectionHeading = "text-[1.75rem] leading-tight sm:text-4xl font-bold tracking-tight";
 
 export default function BeardOilPage() {
   return (
@@ -49,52 +56,66 @@ export default function BeardOilPage() {
 
       {/* Above the fold: what it is, price, and the pre-order button. */}
       <section className="mx-auto max-w-6xl px-5 pt-8 pb-16 sm:py-16 grid sm:grid-cols-2 gap-10 sm:gap-14 items-start">
-        {/* On a phone only the main photo shows, kept short, so the name,
-            price and pre-order button aren't pushed two screens down. The
-            pack photos add nothing the pack picker doesn't already say. */}
-        <div className="grid grid-cols-2 gap-3">
-          {products.map((p, i) => (
-            <figure key={p.slug} className={i === 0 ? "col-span-2" : "hidden sm:block"}>
-              <div
-                className={`relative rounded-2xl overflow-hidden border border-ink/10 bg-peach-light ${
-                  i === 0 ? "aspect-[4/3] sm:aspect-square" : "aspect-square"
-                }`}
-              >
-                <Image
-                  src={p.image}
-                  alt={`${siteConfig.brandName} beard oil, ${p.scent}`}
-                  fill
-                  priority={i === 0}
-                  sizes={i === 0 ? "(max-width: 640px) 100vw, 50vw" : "(max-width: 640px) 50vw, 25vw"}
-                  className="object-cover"
-                />
-              </div>
-              <figcaption className="hidden sm:block text-ink/45 text-xs mt-2">{p.scent}</figcaption>
-            </figure>
-          ))}
+        {/* On a phone only the labelled bottle shows, kept short, so the
+            name, price and pre-order button aren't pushed two screens down.
+            The pack photos add nothing the pack picker doesn't already say. */}
+        <div>
+          <div className="texture relative rounded-xl border border-ink/10 overflow-hidden flex items-center justify-center py-8 sm:py-14">
+            <div
+              aria-hidden="true"
+              className="absolute bottom-6 left-1/2 -translate-x-1/2 w-56 h-28 rounded-full bg-teal/20 blur-3xl"
+            />
+            <Image
+              src={BOTTLE_IMAGE.src}
+              width={BOTTLE_IMAGE.width}
+              height={BOTTLE_IMAGE.height}
+              alt={`${siteConfig.brandName} beard oil, ${BOTTLE_SIZE} amber dropper bottle`}
+              priority
+              sizes="160px"
+              className="relative h-60 sm:h-80 w-auto rounded-xl border border-ink/10 shadow-2xl shadow-black/60"
+            />
+          </div>
+          <div className="hidden sm:grid grid-cols-3 gap-3 mt-3">
+            {products.map((p) => (
+              <figure key={p.slug}>
+                <div className="relative aspect-square rounded-lg overflow-hidden border border-ink/10 bg-peach-light">
+                  <Image
+                    src={p.image}
+                    alt={`${siteConfig.brandName} beard oil, ${p.scent}`}
+                    fill
+                    sizes="17vw"
+                    className="object-cover"
+                  />
+                </div>
+                <figcaption className="text-ink/45 text-xs mt-2">{p.scent}</figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
 
         <div id="first-drop">
-          <p className={eyebrow}>Pre-order · The first drop</p>
-          <h1 className="text-4xl sm:text-5xl font-bold mt-3">{siteConfig.brandName} Beard Oil</h1>
-          <p className="text-ink/70 text-lg mt-4">{oilDescription}</p>
+          <p className="eyebrow">Pre-order · The first drop</p>
+          <h1 className="text-[2.25rem] leading-[1.05] sm:text-5xl font-bold tracking-tight mt-4">
+            {siteConfig.brandName} <span className="heading-muted">Beard Oil</span>
+          </h1>
+          <p className="lede mt-4">{oilDescription}</p>
           <p className="text-ink/50 text-sm mt-3">
             {BOTTLE_SIZE} dropper bottle · around two months of daily use · from{" "}
             {formatPrice(lowestPriceCents())}
           </p>
-          <div className="mt-8 bg-navy border border-ink/10 rounded-3xl p-5 sm:p-7">
+          <div className="mt-8 card bg-navy p-5 sm:p-7">
             <PackPicker />
           </div>
         </div>
       </section>
 
       {/* The problem, and why it's the first thing AZAD BLACK is making. */}
-      <section className="bg-navy border-y border-ink/5 py-16 sm:py-20">
+      <section className="border-t border-ink/[0.06] py-20 sm:py-24">
         <div className="mx-auto max-w-5xl px-5 grid gap-12 sm:grid-cols-2">
           <div>
-            <p className={eyebrow}>The problem</p>
-            <h2 className={`${sectionHeading} mt-3`}>A beard shouldn&apos;t be a project.</h2>
-            <div className="mt-4 space-y-4 text-ink/70">
+            <p className="eyebrow">The problem</p>
+            <h2 className={`${sectionHeading} mt-4`}>A beard shouldn&apos;t be a project.</h2>
+            <div className="mt-4 space-y-4 lede">
               <p>
                 Growing one comes with itch, flakes, and hair that turns coarse and won&apos;t sit
                 right. The usual answer is a shelf of products and a routine to go with them.
@@ -106,13 +127,13 @@ export default function BeardOilPage() {
             </div>
           </div>
           <div>
-            <p className={eyebrow}>What it does</p>
-            <h2 className={`${sectionHeading} mt-3`}>One job, done properly.</h2>
-            <ul className="mt-5 space-y-3">
-              {oilBenefits.map((o) => (
-                <li key={o} className="flex gap-3 text-ink/80">
-                  <span aria-hidden="true" className="text-teal">✓</span>
-                  {o}
+            <p className="eyebrow">What it does</p>
+            <h2 className={`${sectionHeading} mt-4`}>One job, done properly.</h2>
+            <ul className="mt-6 space-y-5">
+              {oilBenefits.map((b) => (
+                <li key={b.title}>
+                  <h3 className="text-teal text-sm font-semibold uppercase tracking-[0.14em]">{b.title}</h3>
+                  <p className="text-ink/65 mt-1">{b.body}</p>
                 </li>
               ))}
             </ul>
@@ -124,21 +145,21 @@ export default function BeardOilPage() {
         </div>
       </section>
 
-      <Ritual heading="How to use it." />
+      <Ritual title="How to use it." muted="Thirty seconds." />
 
-      <section className="bg-navy border-y border-ink/5 py-16 sm:py-20">
+      <section className="texture py-20 sm:py-24">
         <div className="mx-auto max-w-5xl px-5 grid gap-12 sm:grid-cols-2">
           <div>
-            <p className={eyebrow}>Pre-order</p>
-            <h2 className={`${sectionHeading} mt-3`}>How the first drop works.</h2>
-            <p className="text-ink/70 mt-4">
+            <p className="eyebrow">Pre-order</p>
+            <h2 className={`${sectionHeading} mt-4`}>How the first drop works.</h2>
+            <p className="lede mt-4">
               {siteConfig.brandName} is new, and this is our first product. Pre-ordering means
               you&apos;re one of the first people to get it — and helping decide what we build
               next.
             </p>
             <a
               href="#first-drop"
-              className="inline-block mt-8 bg-ink text-cream rounded-full px-7 py-4 font-semibold uppercase tracking-wide text-sm transition-all duration-200 hover:opacity-85 active:scale-95"
+              className="btn mt-8"
             >
               Pre-order the first drop
             </a>
@@ -147,10 +168,10 @@ export default function BeardOilPage() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-20">
+      <section className="border-t border-ink/[0.06] py-20 sm:py-24">
         <div className="mx-auto max-w-5xl px-5 grid gap-12 sm:grid-cols-2">
           <div>
-            <h2 className="text-lg font-semibold">Details</h2>
+            <h2 className="eyebrow">Details</h2>
             <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-sm">
               <dt className="text-ink/50">Size</dt>
               <dd className="text-ink/75">{BOTTLE_SIZE} dropper bottle</dd>
@@ -163,7 +184,7 @@ export default function BeardOilPage() {
             </dl>
           </div>
           <div>
-            <h2 className="text-lg font-semibold">Ingredients</h2>
+            <h2 className="eyebrow">Ingredients</h2>
             {ingredientsInci ? (
               <p className="text-ink/65 text-sm mt-4 leading-relaxed">{ingredientsInci}</p>
             ) : (

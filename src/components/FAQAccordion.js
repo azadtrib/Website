@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { faqs } from "@/lib/faqs";
 import { faqSchema, jsonLd } from "@/lib/seo";
+import SectionHeader from "./SectionHeader";
 
 const linkClass = "text-teal hover:underline";
 
@@ -11,34 +12,41 @@ export default function FAQAccordion() {
   const [openIndex, setOpenIndex] = useState(null);
 
   return (
-    <section id="faq" className="py-16 sm:py-24">
+    <section id="faq" className="py-20 sm:py-28">
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(faqSchema(faqs))} />
       <div className="mx-auto max-w-3xl px-5">
-        <p className="text-teal text-xs font-semibold uppercase tracking-widest">Questions</p>
-        <h2 className="text-3xl sm:text-4xl font-bold mt-3 mb-10">The obvious ones, answered.</h2>
-        <div className="space-y-3">
+        <SectionHeader
+          eyebrow="Questions"
+          title="Quick answers."
+          muted="The obvious ones."
+          className="mb-12"
+        />
+        <div className="space-y-2.5">
           {faqs.map((faq, i) => {
             const isOpen = openIndex === i;
             return (
               <div
                 key={i}
-                className="border border-ink/15 rounded-xl overflow-hidden transition-colors hover:border-ink/30"
+                className="card overflow-hidden transition-colors hover:border-ink/25"
               >
                 <button
-                  className="w-full flex items-center justify-between px-5 py-4 text-left font-medium"
+                  className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left font-medium"
                   aria-expanded={isOpen}
                   aria-controls={`faq-panel-${i}`}
                   onClick={() => setOpenIndex(isOpen ? null : i)}
                 >
                   {faq.q}
-                  <span
+                  <svg
                     aria-hidden="true"
-                    className={`text-teal text-xl leading-none transition-transform duration-300 ${
-                      isOpen ? "rotate-45" : "rotate-0"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    className={`flex-none text-ink/50 transition-transform duration-300 ${
+                      isOpen ? "rotate-180" : "rotate-0"
                     }`}
                   >
-                    +
-                  </span>
+                    <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </button>
                 <div
                   id={`faq-panel-${i}`}
@@ -51,7 +59,7 @@ export default function FAQAccordion() {
                 >
                   <div className="overflow-hidden">
                     <p
-                      className={`px-5 pb-4 text-ink/70 text-sm transition-opacity duration-300 ${
+                      className={`px-5 pb-5 text-ink/65 text-[15px] leading-relaxed transition-opacity duration-300 ${
                         isOpen ? "opacity-100" : "opacity-0"
                       }`}
                     >

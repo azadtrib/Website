@@ -27,14 +27,37 @@ export const productDetails = [
 export const oilDescription =
   "A lightweight, fast-absorbing beard oil that softens coarse hair and calms the itch and flakiness of growing out a beard.";
 
-// What the oil does, stated as a cosmetic can honestly state it. The
+// What the oil does, stated as a cosmetic can honestly state it. These follow
+// the brand's product graphic, with the wording pulled back where it went
+// further than a cosmetic can: nothing about follicles, roots or a "fuller"
+// beard, which reads as a growth claim and makes a product a medicine. The
 // supplier's own listing calls it a "growth oil"; this deliberately doesn't.
 export const oilBenefits = [
-  "Softens coarse, wiry hair",
-  "Calms the itch and the flakes underneath",
-  "A light shine — no hold, no stiffness",
-  "Fresh, natural scent",
+  {
+    title: "Moisturises",
+    body: "A blend of oils that keeps your beard, and the skin under it, from drying out.",
+  },
+  {
+    title: "Reduces dryness",
+    body: "Helps stop the flaking and keeps your beard soft and manageable.",
+  },
+  {
+    title: "Tames frizz",
+    body: "A smoother finish for a neater-looking beard — and less itch.",
+  },
+  {
+    title: "Adds natural shine",
+    body: "A light, healthy-looking shine. No hold, no stiffness, no grease.",
+  },
+  {
+    title: "Subtle scent",
+    body: "Fresh and natural. Noticeable up close, not across the room.",
+  },
 ];
+
+// The labelled bottle — the photo to use wherever the product itself is the
+// subject. The pack photos below are unlabelled.
+export const BOTTLE_IMAGE = { src: "/products/bottle.png", width: 181, height: 342 };
 
 // The one place the bottle size is set — every label, title and supply
 // estimate on the site reads it from here.

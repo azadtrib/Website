@@ -26,12 +26,12 @@ export default function PreorderSteps() {
 
   return (
     <div>
-      <h3 className="text-sm font-semibold text-ink mb-4">What happens after you order</h3>
+      <h3 className="eyebrow mb-5">What happens after you order</h3>
       <ol className="space-y-4">
         {steps.map((step, i) => (
           <li key={step.title} className="flex gap-4">
-            <span className="flex-none w-7 h-7 rounded-full border border-teal/50 text-teal text-xs font-semibold flex items-center justify-center">
-              {i + 1}
+            <span className="flex-none w-7 text-teal text-sm font-semibold tabular-nums pt-px">
+              0{i + 1}
             </span>
             <div>
               <p className="font-semibold">{step.title}</p>

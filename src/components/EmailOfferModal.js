@@ -13,6 +13,7 @@ import {
   useTimeLeft,
 } from "@/lib/offer-client";
 import ScratchCard from "./ScratchCard";
+import Logo from "./Logo";
 
 // Pages where the offer may open by itself. Everywhere else it only opens
 // when someone asks for it (the "unlock 10%" link in the basket).
@@ -139,7 +140,7 @@ function OfferDialog() {
         aria-modal="true"
         aria-labelledby="offer-title"
         tabIndex={-1}
-        className="relative w-full sm:max-w-md max-h-[92vh] overflow-y-auto bg-navy border border-ink/10 rounded-t-3xl sm:rounded-3xl px-6 pt-12 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:pb-8 shadow-2xl focus:outline-none animate-[sheet-up_0.3s_ease] sm:animate-fade-in-up motion-reduce:animate-none"
+        className="relative w-full sm:max-w-md max-h-[92vh] overflow-y-auto bg-navy border border-ink/10 rounded-t-2xl sm:rounded-2xl px-6 pt-12 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:pb-8 shadow-2xl focus:outline-none animate-[sheet-up_0.3s_ease] sm:animate-fade-in-up motion-reduce:animate-none"
       >
         <button
           type="button"
@@ -152,10 +153,11 @@ function OfferDialog() {
 
         {step === "form" && (
           <>
-            <p className="text-teal text-xs font-semibold uppercase tracking-widest">
+            <Logo className="h-7 mb-6" />
+            <p className="eyebrow">
               Your first {siteConfig.brandName} drop
             </p>
-            <h2 id="offer-title" className="text-2xl font-bold mt-2">
+            <h2 id="offer-title" className="text-2xl font-bold tracking-tight mt-3">
               Unlock a discount on the first drop
             </h2>
             <p className="text-ink/70 mt-3">
@@ -174,7 +176,7 @@ function OfferDialog() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="w-full bg-cream border border-ink/20 rounded-full px-5 py-3.5 text-base text-ink placeholder:text-ink/40 focus:outline-none focus:border-teal"
+                  className="w-full bg-cream border border-ink/15 rounded-lg px-4 py-3.5 text-base text-ink placeholder:text-ink/40 focus:outline-none focus:border-teal"
                 />
               </label>
               {/* Honeypot for bots: hidden from people and screen readers. */}
@@ -191,7 +193,7 @@ function OfferDialog() {
               <button
                 type="submit"
                 disabled={pending}
-                className="w-full bg-ink text-cream rounded-full py-3.5 font-semibold uppercase tracking-wide text-sm transition-all duration-200 hover:opacity-85 active:scale-95 disabled:opacity-50"
+                className="btn w-full"
               >
                 {pending ? "Unlocking…" : "Reveal my discount"}
               </button>
@@ -220,10 +222,10 @@ function OfferDialog() {
 
         {(step === "scratch" || step === "revealed") && offer && (
           <>
-            <p className="text-teal text-xs font-semibold uppercase tracking-widest">
+            <p className="eyebrow">
               {step === "scratch" ? "Scratch to reveal your offer" : "Unlocked"}
             </p>
-            <h2 id="offer-title" className="text-2xl font-bold mt-2 mb-5">
+            <h2 id="offer-title" className="text-2xl font-bold tracking-tight mt-3 mb-5">
               {step === "scratch"
                 ? "Here's what you've got"
                 : `Your ${offer.percentOff}% discount has been unlocked`}
@@ -234,7 +236,7 @@ function OfferDialog() {
                 <OfferFace offer={offer} />
               </ScratchCard>
             ) : (
-              <div className="h-36 rounded-2xl border border-teal/40 bg-navy flex flex-col items-center justify-center text-center p-4">
+              <div className="h-36 rounded-xl border border-teal/40 bg-navy flex flex-col items-center justify-center text-center p-4">
                 <OfferFace offer={offer} />
               </div>
             )}
@@ -246,7 +248,7 @@ function OfferDialog() {
                   automatically at checkout on this device
                   {timeLeft && timeLeft !== "expired" ? ` — ${timeLeft}.` : "."}
                 </p>
-                <div className="flex items-center justify-between gap-3 border border-ink/15 rounded-full pl-5 pr-1.5 py-1.5">
+                <div className="flex items-center justify-between gap-3 border border-ink/15 rounded-lg pl-4 pr-1.5 py-1.5">
                   <span className="text-sm">
                     <span className="text-ink/50">Code </span>
                     <span className="font-semibold tracking-wider">{offer.code}</span>
@@ -254,7 +256,7 @@ function OfferDialog() {
                   <button
                     type="button"
                     onClick={copyCode}
-                    className="text-xs font-semibold border border-ink/20 rounded-full px-3 py-1.5 hover:border-ink/50 transition-colors"
+                    className="text-xs font-semibold border border-ink/20 rounded-md px-3 py-1.5 hover:border-ink/50 transition-colors"
                   >
                     {copied ? "Copied" : "Copy"}
                   </button>
@@ -265,7 +267,7 @@ function OfferDialog() {
                 <Link
                   href={preorderHref}
                   onClick={closeOfferModal}
-                  className="block w-full text-center bg-ink text-cream rounded-full py-3.5 font-semibold uppercase tracking-wide text-sm transition-all duration-200 hover:opacity-85 active:scale-95"
+                  className="btn w-full"
                 >
                   Pre-order the first drop
                 </Link>

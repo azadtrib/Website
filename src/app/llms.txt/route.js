@@ -46,7 +46,7 @@ It is at the very start. Its first and only product is a beard oil, currently av
 
 ${oilDescription}
 
-${oilBenefits.map((b) => `- ${b}`).join("\n")}
+${oilBenefits.map((b) => `- **${b.title}.** ${b.body}`).join("\n")}
 ${productDetails.map((d) => `- ${d.label}: ${d.value}`).join("\n")}
 
 Packs (every pack is the same oil):

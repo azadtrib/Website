@@ -65,6 +65,23 @@ their prices (in **pence** — `1399` is £13.99), what the oil does, and the
 ingredients. The crossed-out prices are worked out automatically from the
 single-bottle price, so they're always genuine.
 
+**Brand images**:
+
+| File | What it is |
+| --- | --- |
+| `public/brand/logo.png` | The AZAD BLACK wordmark on a transparent background — nav, footer, pop-up, share image |
+| `public/products/bottle.png` | The labelled bottle — hero, product section, product page |
+| `src/app/apple-icon.png` | The square logo, used when someone saves the site to their phone's home screen |
+
+The logo and bottle are currently cut from small screenshots. Swap in the
+full-resolution originals under the same file names; if the bottle photo's
+size changes, update `BOTTLE_IMAGE` in `src/lib/products.js` to match. After
+changing the logo, run `node scripts/og-image.mjs` to rebuild the share image.
+
+The look itself — the copper accent, the button, the section headings — is
+defined once at the top of `src/app/globals.css` (`.eyebrow`, `.heading`,
+`.btn`, `.card`), so restyling there changes every page.
+
 **`src/lib/faqs.js`**: the FAQ. The same answers also feed Google and
 `/llms.txt`.
 

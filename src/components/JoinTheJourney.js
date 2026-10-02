@@ -32,16 +32,19 @@ export default function JoinTheJourney() {
   ].filter((s) => s.href);
 
   return (
-    <section id="join" className="bg-navy border-t border-ink/5 py-16 sm:py-24">
+    <section id="join" className="texture border-t border-ink/[0.06] py-20 sm:py-28">
       <div className="mx-auto max-w-2xl px-5 text-center">
-        <p className="text-teal text-xs font-semibold uppercase tracking-widest">Follow the journey</p>
-        <h2 className="text-3xl sm:text-4xl font-bold mt-3">We&apos;re just getting started.</h2>
-        <p className="text-ink/70 text-lg mt-4">
-          See what we&apos;re building, and help shape what comes next.
+        <p className="eyebrow">Follow the journey</p>
+        <h2 className="heading mt-4">
+          Want in? <span className="heading-muted block">Get {siteConfig.offer.percentOff}% off.</span>
+        </h2>
+        <p className="lede mt-5">
+          We&apos;re just getting started. Join the list to see what we&apos;re building, help
+          shape what comes next — and take {siteConfig.offer.percentOff}% off your pre-order.
         </p>
 
         {offer ? (
-          <div className="mt-8 border border-teal/40 bg-teal/10 rounded-2xl p-5" aria-live="polite">
+          <div className="mt-8 rounded-xl border border-teal/40 bg-teal/[0.07] p-5" aria-live="polite">
             <p className="font-semibold">You&apos;re in.</p>
             <p className="text-ink/70 text-sm mt-1">
               Your {offer.percentOff}% code <span className="text-ink font-semibold">{offer.code}</span>{" "}
@@ -61,7 +64,7 @@ export default function JoinTheJourney() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Your email"
-                className="w-full bg-cream border border-ink/20 rounded-full px-5 py-3.5 text-base text-ink placeholder:text-ink/40 focus:outline-none focus:border-teal"
+                className="w-full bg-cream border border-ink/15 rounded-lg px-4 py-3.5 text-base text-ink placeholder:text-ink/40 focus:outline-none focus:border-teal"
               />
             </label>
             <input
@@ -77,7 +80,7 @@ export default function JoinTheJourney() {
             <button
               type="submit"
               disabled={pending}
-              className="bg-ink text-cream rounded-full px-7 py-3.5 font-semibold text-sm transition-all duration-200 hover:opacity-85 active:scale-95 disabled:opacity-50"
+              className="btn"
             >
               {pending ? "Joining…" : `Join — get ${siteConfig.offer.percentOff}% off`}
             </button>
@@ -106,7 +109,7 @@ export default function JoinTheJourney() {
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border border-ink/20 rounded-full px-5 py-2.5 text-sm font-semibold hover:border-ink/50 transition-colors"
+                className="rounded-lg border border-ink/15 px-5 py-2.5 text-sm font-medium text-ink/80 hover:border-ink/40 hover:text-ink transition-colors"
               >
                 {s.label}
               </a>

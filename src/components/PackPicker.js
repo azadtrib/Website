@@ -20,15 +20,15 @@ export default function PackPicker() {
   return (
     <div>
       <fieldset>
-        <legend className="text-sm font-semibold text-ink mb-3">Choose your pack</legend>
+        <legend className="eyebrow mb-4">Choose your pack</legend>
         <div className="grid gap-3">
           {products.map((p) => {
             const checked = p.slug === slug;
             return (
               <label
                 key={p.slug}
-                className={`relative flex items-center gap-4 rounded-2xl border px-4 py-3.5 cursor-pointer transition-colors ${
-                  checked ? "border-teal bg-teal/10" : "border-ink/15 hover:border-ink/30"
+                className={`relative flex items-center gap-4 rounded-lg border px-4 py-3.5 cursor-pointer transition-colors ${
+                  checked ? "border-teal/70 bg-teal/[0.07]" : "border-ink/12 hover:border-ink/30"
                 }`}
               >
                 <input
@@ -51,7 +51,7 @@ export default function PackPicker() {
                   <span className="flex items-center gap-2 flex-wrap">
                     <span className="font-semibold">{p.name}</span>
                     {p.isBestValue && (
-                      <span className="bg-teal text-cream text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full">
+                      <span className="border border-teal/50 text-teal text-[10px] font-semibold uppercase tracking-[0.14em] px-2 py-0.5 rounded">
                         Best value
                       </span>
                     )}
@@ -95,7 +95,7 @@ export default function PackPicker() {
       <button
         type="button"
         onClick={() => addItem(selected, 1)}
-        className="mt-5 w-full bg-ink text-cream rounded-full py-4 font-semibold uppercase tracking-wide text-sm transition-all duration-200 hover:opacity-85 active:scale-95"
+        className="btn mt-5 w-full"
       >
         Pre-order — {formatPrice(selected.priceCents)}
       </button>

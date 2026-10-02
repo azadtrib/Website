@@ -1,51 +1,56 @@
 import Link from "next/link";
 import Image from "next/image";
 import { siteConfig } from "@/lib/site-config";
+import { BOTTLE_IMAGE, BOTTLE_SIZE } from "@/lib/products";
+import { formatPrice } from "@/lib/format";
+import { lowestPriceCents } from "@/lib/seo";
 
 // Problem → solution → action, in that order. Nothing here about who started
 // the brand — that comes later, in support of the problem, not as the hook.
 export default function Hero() {
+  // The last three words of the tagline drop back to the muted tone.
+  const words = siteConfig.tagline.split(" ");
+  const lead = words.slice(0, -3).join(" ");
+  const muted = words.slice(-3).join(" ");
+
   return (
-    <section className="bg-peach overflow-hidden">
-      <div className="mx-auto max-w-6xl px-5 pt-10 pb-14 sm:py-24 grid sm:grid-cols-2 gap-10 sm:gap-14 items-center">
-        <div className="animate-fade-in-up">
-          <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-teal">
-            <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-teal" />
-            Pre-orders open · The first drop
-          </p>
-          <h1 className="text-[2.6rem] leading-[1.05] sm:text-6xl font-bold text-ink mt-4">
-            {siteConfig.tagline}
-          </h1>
-          <p className="mt-5 text-ink/70 text-lg max-w-md">
-            You want to look after yourself — not take on a ten-step routine.{" "}
-            {siteConfig.brandName} keeps it simple, starting with one thing done properly: beard oil.
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <Link
-              href="#first-drop"
-              className="text-center bg-ink text-cream rounded-full px-7 py-4 font-semibold uppercase tracking-wide text-sm transition-all duration-200 hover:opacity-85 active:scale-95"
-            >
-              Pre-order the first drop
-            </Link>
-            <Link
-              href="#ritual"
-              className="text-center border border-ink/25 rounded-full px-7 py-4 font-semibold text-sm text-ink transition-colors hover:border-ink/50"
-            >
-              See how simple it is
-            </Link>
-          </div>
+    <section className="texture overflow-hidden">
+      <div className="mx-auto max-w-3xl px-5 pt-12 pb-16 sm:pt-24 sm:pb-24 text-center animate-fade-in-up">
+        <p className="eyebrow">Pre-orders open · The first drop</p>
+        <h1 className="mt-5 text-[2.5rem] leading-[1.04] sm:text-7xl font-bold tracking-tight text-balance">
+          {lead} <span className="heading-muted block">{muted}</span>
+        </h1>
+        <p className="lede mt-6 max-w-xl mx-auto">
+          You want to look after yourself — not take on a ten-step routine.{" "}
+          {siteConfig.brandName} keeps it simple, starting with one thing done properly: beard oil.
+        </p>
+        <div className="mt-8 flex flex-col sm:flex-row sm:justify-center gap-2 sm:gap-4">
+          <Link href="#first-drop" className="btn">
+            Pre-order the first drop
+          </Link>
+          <Link href="#ritual" className="btn-text">
+            See how simple it is
+          </Link>
         </div>
-        <div className="animate-fade-in-up" style={{ animationDelay: "0.15s" }}>
+
+        <div className="relative mt-12 sm:mt-16 flex justify-center">
+          <div
+            aria-hidden="true"
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-72 h-40 rounded-full bg-teal/20 blur-3xl"
+          />
           <Image
-            src="/hero.png"
-            alt={`A man holding a dropper bottle of ${siteConfig.brandName} beard oil`}
-            width={620}
-            height={633}
+            src={BOTTLE_IMAGE.src}
+            width={BOTTLE_IMAGE.width}
+            height={BOTTLE_IMAGE.height}
+            alt={`A ${BOTTLE_SIZE} amber dropper bottle of ${siteConfig.brandName} beard oil`}
             priority
-            sizes="(max-width: 640px) 100vw, 50vw"
-            className="w-full max-w-xl mx-auto rounded-2xl object-cover border border-ink/10"
+            sizes="160px"
+            className="relative h-[17rem] sm:h-80 w-auto rounded-2xl border border-ink/10 shadow-2xl shadow-black/60"
           />
         </div>
+        <p className="mt-6 text-ink/45 text-xs uppercase tracking-[0.2em]">
+          {BOTTLE_SIZE} · from {formatPrice(lowestPriceCents())} · UK delivery
+        </p>
       </div>
     </section>
   );

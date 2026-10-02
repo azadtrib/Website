@@ -177,7 +177,7 @@ export default function CartDrawer() {
               </p>
               <button
                 onClick={applySuggestion}
-                className="mt-3 w-full bg-teal text-cream rounded-full py-2 text-sm font-semibold transition-all duration-200 hover:opacity-90 active:scale-95"
+                className="btn mt-3 w-full py-2! text-sm"
               >
                 Swap & save {formatPrice(suggestion.saveCents)}
               </button>
@@ -234,7 +234,7 @@ export default function CartDrawer() {
             ref={checkoutButtonRef}
             disabled={!hasItems || loading}
             onClick={handleCheckout}
-            className="w-full bg-ink text-cream rounded-full py-3 font-semibold disabled:opacity-40 transition-all duration-200 hover:opacity-85 active:scale-95"
+            className="btn w-full"
           >
             {loading ? "Redirecting…" : "Pre-order securely"}
           </button>
